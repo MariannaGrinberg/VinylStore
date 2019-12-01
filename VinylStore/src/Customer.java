@@ -1,10 +1,10 @@
 import java.util.Date;
 
-public class Customers extends User {
+public class Customer extends User {
 	
 	private Date startWorkingDate;
 
-	public Customers(int ID, String username, int password, String firstName, String lastName, 
+	public Customer(int ID, String username, int password, String firstName, String lastName, 
 			Address address,int phoneNumber, String email, Date startWorkingDate) {
 	
 		super(ID, username, password, firstName, lastName, address, phoneNumber, email);
