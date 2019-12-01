@@ -3,14 +3,16 @@ public class Address {
 	
 
 	// Attributes
+	
 	City city;
-	Street street;
+	String street;
 	String number;
 	String zipCode;
 	
 	
 	// Constructor
-	public Address(City city, Street street, String number, String zipCode) {
+	
+	public Address(City city, String street, String number, String zipCode) {
 		
 		setCity(city);
 		setStreet(street);
@@ -21,6 +23,7 @@ public class Address {
 	
 	
 	// Setters
+	
 	private void setZipCode(String zipCode) {
 		this.zipCode = zipCode;
 		
@@ -30,7 +33,7 @@ public class Address {
 		this.number = number;
 	}
 
-	private void setStreet(Street street) {
+	private void setStreet(String street) {
 		this.street = street;
 	}
 
@@ -40,6 +43,7 @@ public class Address {
 	
 	
 	// Getters
+	
 	public String getZipCode() {
 		return this.zipCode;
 	}
@@ -48,7 +52,7 @@ public class Address {
 		return this.number;
 	}
 	
-	public Street getStreet() {
+	public String getStreet() {
 		return this.street;
 	}
 	
@@ -58,6 +62,7 @@ public class Address {
 	
 	
 	// toString
+	
 	@Override
 	public String toString() {
 		return "Address [city=" + city + ", street=" + street + ", number=" + number + ", zipCode=" + zipCode + "]";
