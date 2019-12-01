@@ -1,4 +1,4 @@
 
 public enum Condition {
-	old, BrandNew, damaged; 
+	old, BrandNew, Used, damaged; 
 }

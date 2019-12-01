@@ -8,15 +8,15 @@ public class Vinyl {
 	private String name;
 	private ArrayList<String> artist;
 	private String description; 
-	private Date releaseDate;
-	private String format;
+	private String releaseYear;
+	private Format format;
 	private Condition condition;
 	private float price; 
 	private ArrayList<Song> songs; 
 	private float discount;
 
 	
-	public Vinyl(String name, ArrayList<String> artist, String description, Date releaseDate, String format, 
+	public Vinyl(String name, String[] artist, String description, String releaseYear, Format format, 
 				 Condition condition, float price, float discount) {
 		
 		songs = new ArrayList<>();
@@ -24,7 +24,7 @@ public class Vinyl {
 		setName(name);
 		setArtist(artist);
 		setDescription(description);
-		setReleaseDate(releaseDate);
+		setReleaseDate(releaseYear);
 		setFormat(format);
 		setCondition(condition);
 		setDiscount(discount);
@@ -41,11 +41,11 @@ public class Vinyl {
 		return description;
 	}
 
-	public Date getReleaseDate() {
-		return releaseDate;
+	public String getReleaseDate() {
+		return releaseYear;
 	}
 
-	public String getFormat() {
+	public Format getFormat() {
 		return format;
 	}
 
@@ -69,8 +69,10 @@ public class Vinyl {
 
 	//Setters
 
-	public void setArtist(ArrayList<String> artist) {
-		this.artist = artist;
+	public void setArtist(String[] artist) {
+		for (String artName : artist) {
+			this.artist.add(artName);
+		}
 	}
 	
 	public void setName(String name) {
@@ -81,11 +83,11 @@ public class Vinyl {
 		this.description = description;
 	}
 
-	public void setReleaseDate(Date releaseDate) {
-		this.releaseDate = releaseDate;
+	public void setReleaseDate(String releaseYear) {
+		this.releaseYear = releaseYear;
 	}
 
-	public void setFormat(String format) {
+	public void setFormat(Format format) {
 		this.format = format;
 	}
 
@@ -137,7 +139,7 @@ public class Vinyl {
 			artists += " ["+art+"] ";
 		}
 		
-		return "Vinyl [vinylID=" + vinylID + ", name=" + name +", artist=" + artists + ", description=" + description + ", releaseDate=" + releaseDate
+		return "Vinyl [vinylID=" + vinylID + ", name=" + name +", artist=" + artists + ", description=" + description + ", releaseDate=" + releaseYear
 				+ ", format=" + format + ", condition=" + condition + ", price=" + price + ", songs=" + songs + "]";
 	}
 	
