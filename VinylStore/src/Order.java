@@ -5,6 +5,7 @@ public class Order {
 
 	
 	// Attributes
+	
 	static int num = 0;
 	private int orderID;
 	private Employee employee;
@@ -18,6 +19,7 @@ public class Order {
 
 	
 	// Constructor
+	
 	public Order(Employee employee, Customer customer, ArrayList<Vinyl> products, 
 				 Date orderDate, float discount) {
 		
@@ -35,6 +37,7 @@ public class Order {
 
 
 	// Setters
+	
 	public void setOrderID(int orderID) {
 		this.orderID = ++num;
 	}
@@ -79,6 +82,7 @@ public class Order {
 	}
 	
 	// Getters
+	
 	public Date getDeliveryDate() {
 		return deliveryDate;
 	}

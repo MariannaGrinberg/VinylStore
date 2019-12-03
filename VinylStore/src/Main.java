@@ -49,8 +49,15 @@ public class Main {
 		// Discount
 		float discount = inputDiscount();
 		
-		return new Vinyl(vinylName, artist, description, releaseYear, format, condition,
-				   		 price, discount);
+		try {
+			return new Vinyl(vinylName, artist, description, releaseYear, format, condition,
+					   		 price, discount);
+		} catch (IllegalVinylPrice e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null; 
+		
 		
 	}
 	

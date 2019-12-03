@@ -4,8 +4,8 @@ public class Customer extends User {
 	
 	private Date startWorkingDate;
 
-	public Customer(int ID, String username, int password, String firstName, String lastName, 
-			Address address,int phoneNumber, String email, Date startWorkingDate) {
+	public Customer(int ID, String username, String password, String firstName, String lastName, 
+			Address address,int phoneNumber, String email, Date startWorkingDate) throws InvalidUserName, IlegalPassword {
 	
 		super(ID, username, password, firstName, lastName, address, phoneNumber, email);
 		setStartWorkingDate(startWorkingDate);

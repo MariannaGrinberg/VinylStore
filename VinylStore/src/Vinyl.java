@@ -15,9 +15,9 @@ public class Vinyl {
 	private ArrayList<Song> songs; 
 	private float discount;
 
-	
+
 	public Vinyl(String name, String[] artist, String description, String releaseYear, Format format, 
-				 Condition condition, float price, float discount) {
+				 Condition condition, float price, float discount) throws IllegalVinylPrice{
 		
 		songs = new ArrayList<>();
 		vinylID = ++num; 
@@ -66,6 +66,10 @@ public class Vinyl {
 	public float getPrice() {
 		return price; 
 	}
+	
+	public float getDiscount() {
+		return discount; 
+	}
 
 	//Setters
 
@@ -95,13 +99,21 @@ public class Vinyl {
 		this.condition = condition;
 	}
 
-	public void setPrice(float price2) {
-		if (this.discount > 0.0) {
-			this.price = this.price - (this.price * this.discount);
+	public void setPrice(float price2) throws IllegalVinylPrice{
+		if (price2 > 0.0) {
+			
+			if (this.getDiscount() == 0.0)
+				this.price = price2;
+				
+			else if (this.getDiscount() > 0.0) 
+				this.price = this.price - (this.price * this.getDiscount());
+				
+			else throw new IllegalVinylPrice("Illega Discount");
+			
 		}
 		
 		else {
-			this.price = price2;			
+			throw new IllegalVinylPrice("Price must be bigger then 0.");
 		}
 	}
 	
@@ -123,7 +135,10 @@ public class Vinyl {
 	}
 	
 	public void setDiscount(float discount) {
-		this.discount = discount;
+		if (discount <= 0.0)
+			this.discount = 0;
+		else this.discount = discount; 
+			
 	}
 
 	@Override

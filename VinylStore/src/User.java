@@ -3,7 +3,7 @@ public abstract class User {
 	
 	protected int ID; 
 	protected String username; 
-	protected int password; 
+	protected String password; 
 	protected String firstName;
 	protected String lastName; 
 	protected Address address; 
@@ -11,8 +11,8 @@ public abstract class User {
 	protected String email; 
 	
 
-	public User(int ID, String username, int password, String firstName,
-					String lastName, Address address, int phoneNumber, String email ) {
+	public User(int ID, String username, String password, String firstName,
+					String lastName, Address address, int phoneNumber, String email) throws InvalidUserName,IlegalPassword {
 		
 		setID(ID);
 		setUsername(username);
@@ -37,7 +37,7 @@ public abstract class User {
 	}
 	
 	
-	public int getPassword() {
+	public String getPassword() {
 		return password;
 	}
 
@@ -73,13 +73,19 @@ public abstract class User {
 	}
 
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUsername(String username) throws InvalidUserName {
+		if (username.length() >= 2)
+			this.username = username;
+		
+		else throw new InvalidUserName("User Name must be at least 2 lleters");
 	}
 
 
-	public void setPassword(int password) {
-		this.password = password;
+	public void setPassword(String password) throws IlegalPassword {
+		if (password.length() >= 6)
+			this.password = password;
+		
+		else throw new IlegalPassword("Password must be at least Length 6.");
 	}
 
 
