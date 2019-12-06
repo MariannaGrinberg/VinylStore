@@ -23,6 +23,7 @@ public class Order {
 	public Order(Employee employee, Customer customer, ArrayList<Vinyl> products, 
 				 Date orderDate, float discount) {
 		
+		products = new ArrayList<>(); 
 		setOrderID(orderID);
 		setEmployee(employee);
 		setCustomer(customer);

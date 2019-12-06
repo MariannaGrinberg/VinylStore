@@ -1,32 +1,66 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
 public class Main {
 	
-	Scanner in = new Scanner(System.in);
+	static Scanner in = new Scanner(System.in);
+	
+    static int choice;
+    static int choice2;
+    
+    static ArrayList<Vinyl> products = new ArrayList<>();  
 
 	public static void main(String[] args) {
 		
+		newStore();
+		
+		do {
+			
+			displayVinylManue();
+			addVinyl(newVinyl());
+			
+		} while(choice != 2);
 	}
 	
-	private Store newStore() {
+	private static Store newStore() {
 		
 		System.out.print("Enter Store Name: ");
 		String storeName = in.next();
+		
+
 		
 		return new Store(upperFirst(storeName));
 		
 	}
 	
-	private Vinyl newVinyl() {
+	private static void addVinyl(Vinyl vinyl) {
+		
+		switch(choice2) {
+    	
+    	case 1: products.add(vinyl);
+    	
+    		break;
+
+		}
+	}
+		
+	private static void displayVinylManue(){
+		
+		System.out.println("1. add a new Vinyl");
+		System.out.println("2. exit");
+		
+		choice = in.nextInt(); 
+	}
+		
+	
+	private static Vinyl newVinyl() {
 		
 		// Vinyl Name
 		System.out.print("Enter Vinyl name: ");
 		String vinylName = in.next();
-		
-		// Artist/s Name
-		String[] artist = inputArtists();
 		
 		// Description
 		System.out.print("Enter Vinyl description: ");
@@ -49,11 +83,25 @@ public class Main {
 		// Discount
 		float discount = inputDiscount();
 		
+		
+		
 		try {
-			return new Vinyl(vinylName, artist, description, releaseYear, format, condition,
-					   		 price, discount);
+			
+			Vinyl vinyl = new Vinyl(vinylName, description, releaseYear, 
+					format, condition, price, discount);
+			
+			do {
+				
+				displaySongManue();
+				vinyl.addSong(InsertSong());
+				
+				
+			} while(choice != 2);
+			
+			return vinyl;
+			
 		} catch (IllegalVinylPrice e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		return null; 
@@ -61,14 +109,35 @@ public class Main {
 		
 	}
 	
-	private float inputDiscount() {
+	private static void addSong(Vinyl vinyl) {
+		
+		switch(choice) {
+    	
+    	case 1: vinyl.addSong(InsertSong());
+    	
+    		break;
+
+		}
+	}
+		
+	private static void displaySongManue(){
+		
+		System.out.println("1. add a new song");
+		System.out.println("2. Maybe Later");
+		
+		choice = in.nextInt(); 
+	}
+		
+		
+	
+	private static float inputDiscount() {
 		System.out.print("Enter discount (%): ");
 		float discount = in.nextFloat();
 		
 		return discount / 100;
 	}
 
-	private Condition inputCondition() {
+	private static Condition inputCondition() {
 		int input = 0;
 		while (1 > input || input > 4) {
 			
@@ -84,7 +153,7 @@ public class Main {
 		return conditionSwitchCase(input);	
 	}
 
-	private Condition conditionSwitchCase(int input) {
+	private static Condition conditionSwitchCase(int input) {
 		Condition condition = null;
 		
 		switch (input) {
@@ -108,9 +177,9 @@ public class Main {
 		return condition;
 	}
 
-	private Format inputFormat() {
+	private static Format inputFormat() {
 		int input = 0;
-		while (1 > input || input > 7) {
+		while (1 < input || input > 7) {
 			
 			System.out.println("Choose one of the formats below (1-7): \n"
 							 + "1. LP \n"
@@ -127,7 +196,7 @@ public class Main {
 		return formatSwitchCase(input);		
 	}
 	
-	private Format formatSwitchCase(int input) {
+	private static Format formatSwitchCase(int input) {
 		
 		Format format = null;
 		
@@ -164,20 +233,7 @@ public class Main {
 		return format;
 	}
 	
-	private String[] inputArtists() {
-		System.out.println("Enter Artist/s (if there is more then one, seperate with ', '): ");
-		String artists = in.next();
-		String[] artistsList = artists.split(", ");
-		
-		for (String artName : artistsList) {
-			artName = upperFirst(artName);
-		}
-		
-		return artistsList;
-	}
-	
-	
-	private String upperFirst(String name) {
+	private static String upperFirst(String name) {
 		String[] listName = name.split(" ");
 		String returnName = "";
 		
@@ -187,5 +243,111 @@ public class Main {
 		
 		return returnName;
 	}
+	private static Genre inputGenre() {
+		int input = 0;
+		while (1 < input || input > 11) {
+			
+			System.out.println("Choose one of the formats below (1-7): \n"
+							 + "1. Blues \n"
+							 + "2. Classical \n"
+							 + "3. Country \n"
+							 + "4. Electronic \n"
+							 + "5. Folk \n"
+							 + "6. Jazz \n"
+							 + "7. NewAge \n"
+							 + "8. pop \n"
+							 + "9. Reggae \n"
+							 + "10. RnB \n"
+							 + "11. Rok \n");
 
+			
+			input = in.nextInt();
+			
+		}
+		
+		return GenreSwitchCase(input);		
+	}
+	
+	private static Genre GenreSwitchCase(int input) {
+		
+	Genre Genre = null;
+		
+		switch (input) {
+		case 1: 
+			Genre = Genre.Blues;
+			break;
+		
+		case 2: 
+			Genre = Genre.Classical;
+			break;
+			
+		case 3: 
+			Genre = Genre.Country;
+			break;
+			
+		case 4: 
+			Genre = Genre.Electronic;
+			break;
+			
+		case 5:
+			Genre = Genre.Folk;
+			break;
+			
+		case 6: 
+			Genre = Genre.Jazz;
+			break;
+			
+		case 7: 
+			Genre = Genre.NewAge;
+			break;
+			
+		case 8: 
+			Genre = Genre.Pop;
+			break;
+		
+		case 9: 
+			Genre = Genre.Reggae;
+			break;
+			
+		case 10:
+			Genre = Genre.RnB;
+			break;
+			
+		case 11:
+			Genre = Genre.Rok;
+			break;
+		}
+		
+		
+		return Genre;
+	
+	}
+
+	private static Song InsertSong() {
+		
+		System.out.println("Enter a Song Name");
+		String songName = in.next();
+		
+		System.out.println("Enter Artist Name");
+		String artist = in.next();
+		
+		System.out.println("Enter A ReleaseDate In Foramt: dd/MM/yyyy");
+		String date = in.next();
+		
+		Genre ganre = inputGenre(); 
+		
+		try {
+			
+			Date releaseDate=new SimpleDateFormat("dd/MM/yyyy").parse(date);
+		
+			return new Song(songName, artist, releaseDate, ganre); 
+		
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+	
+		return null; 
+
+	}
 }

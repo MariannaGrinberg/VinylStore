@@ -6,23 +6,21 @@ public class Vinyl {
 	static int num = 0; 
 	private int vinylID;
 	private String name;
-	private ArrayList<String> artist;
 	private String description; 
 	private String releaseYear;
 	private Format format;
 	private Condition condition;
-	private float price; 
+	private float price;
 	private ArrayList<Song> songs; 
 	private float discount;
 
 
-	public Vinyl(String name, String[] artist, String description, String releaseYear, Format format, 
+	public Vinyl(String name, String description, String releaseYear, Format format, 
 				 Condition condition, float price, float discount) throws IllegalVinylPrice{
 		
 		songs = new ArrayList<>();
 		vinylID = ++num; 
 		setName(name);
-		setArtist(artist);
 		setDescription(description);
 		setReleaseDate(releaseYear);
 		setFormat(format);
@@ -54,11 +52,6 @@ public class Vinyl {
 	}
 
 
-	public ArrayList<String> getArtist() {
-		return artist;
-	}
-
-
 	public Condition getCondition() {
 		return condition;
 	}
@@ -73,12 +66,7 @@ public class Vinyl {
 
 	//Setters
 
-	public void setArtist(String[] artist) {
-		for (String artName : artist) {
-			this.artist.add(artName);
-		}
-	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -150,16 +138,15 @@ public class Vinyl {
 		for(int i = 0; i < this.songs.size(); i++) 
 			songs += " ["+this.songs.get(i)+"] ";
 		
-		for (String art : this.artist) {
-			artists += " ["+art+"] ";
-		}
+		for(int i = 0; i < this.songs.size(); i++) 
+			artists += " ["+this.songs.get(i).getArtist()+"] ";
+
 		
 		return "Vinyl [vinylID=" + vinylID + ", name=" + name +", artist=" + artists + ", description=" + description + ", releaseDate=" + releaseYear
 				+ ", format=" + format + ", condition=" + condition + ", price=" + price + ", songs=" + songs + "]";
 	}
 	
 
-	
 	
 	
 }
