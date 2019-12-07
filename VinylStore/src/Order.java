@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -11,17 +12,17 @@ public class Order {
 	private Employee employee;
 	private Customer customer;
 	private ArrayList<Vinyl> products;
-	private float totalPrice;
-	private Date orderDate;
-	private Date deliveryDate = null;
+	private double totalPrice;
+	private LocalDate orderDate;
+	private LocalDate deliveryDate = null;
 	private Address shipAddress;
-	private float discount;
+	private int discount;
 
 	
 	// Constructor
 	
-	public Order(Employee employee, Customer customer, ArrayList<Vinyl> products, 
-				 Date orderDate, float discount) {
+	public Order(Employee employee, Customer customer, 
+			LocalDate orderDate, int discount)  throws IllegalVinylPrice {
 		
 		products = new ArrayList<>(); 
 		setOrderID(orderID);
@@ -31,7 +32,7 @@ public class Order {
 		setDeliveryDate(orderDate);
 		setOrderDate(orderDate);
 		setDiscount(discount);
-		setTotalPrice();
+		setShipAddress();
 	}
 	
 	
@@ -55,36 +56,26 @@ public class Order {
 		this.products = products;
 	}
 
-	public void setShipAddress(Address shipAddress) {
-		this.shipAddress = shipAddress;
+	public void setShipAddress() {
+		this.shipAddress = customer.getAddress();
 	}
 
-	public void setOrderDate(Date orderDate) {
+	public void setOrderDate(LocalDate orderDate) {
 		this.orderDate = orderDate;
 	}
 
-	public void setDeliveryDate(Date deliveryDate) {
+	public void setDeliveryDate(LocalDate deliveryDate) {
 		this.deliveryDate = deliveryDate;
 	}
 	
-	public void setDiscount(Float discount) {
+	public void setDiscount(int discount) {
 		this.discount = discount;
 	}
 	
-	private void setTotalPrice() {
-		for (Vinyl product : this.products) {
-			this.totalPrice += product.getPrice();
-		}
-		
-		if (this.discount > 0.0) {
-			this.totalPrice -= (this.totalPrice * this.discount);
-		}
-		
-	}
 	
 	// Getters
 	
-	public Date getDeliveryDate() {
+	public LocalDate getDeliveryDate() {
 		return deliveryDate;
 	}
 
@@ -108,22 +99,56 @@ public class Order {
 		return products;
 	}
 
-	public Date getOrderDate() {
+	public LocalDate getOrderDate() {
 		return orderDate;
 	}
+	
+	public double getTotalPrice()  throws IllegalVinylPrice{
+		
+		for (Vinyl product : this.products) {
+			this.totalPrice += product.getPrice();
+		}
+		
+		if (this.discount > 0) {
+			this.totalPrice -= (this.totalPrice * this.discount/100);
+		}
+		
+		if(totalPrice < 0 || discount < 0 )
+			throw new IllegalVinylPrice("Price Must Be Greater Than 0");
+		
+		return totalPrice;
+	}
+	
+	public double getDiscount() {
+		return (double) discount/100 ; 
+	}
+	
+	public void addProducts(Vinyl vinyl) {
+		this.products.add(vinyl);
+		
+	}
+	
 	
 	@Override
 	public String toString() {
 		
 		String products = "";
 		
-		for (Vinyl vinyl : this.products) {
-			products += " ["+vinyl.getVinylID() + ", " + vinyl.getName() + ", " + vinyl.getPrice() + "$] ";
+		for(int i = 0; i < this.products.size(); i++) {
+			products += " "+this.products.get(i).getClass().getSimpleName()+"[" + this.products.get(i).getVinylID()+", "+ this.products.get(i).getName()+", "+this.products.get(i).getPrice()+"$]";
+
 		}
 		
 		
-		return "Order [orderID=" + this.orderID + ", customerID=" + this.customer.getID() + ", employeeID=" + this.employee.getID()
-				+ ", orderDate=" + this.orderDate + ", deliveryDate=" + this.deliveryDate + ", shipAddress=" + this.shipAddress +", products=" + products + ", totalPrice=" + this.totalPrice + "]";
+		try {
+			return "Order [orderID=" + this.orderID + ", customerID=" + this.customer.getID() + ", employeeID=" + this.employee.getID()
+					+ ", orderDate=" + this.orderDate + ", deliveryDate=" + this.deliveryDate + ", shipAddress=" + this.shipAddress +", products=" + products + ", totalPrice=" + this.getTotalPrice() + "]";
+		} catch (IllegalVinylPrice e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return products;
+
 	}
 	
 }

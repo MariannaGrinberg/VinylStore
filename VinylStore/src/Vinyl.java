@@ -88,7 +88,7 @@ public class Vinyl {
 	}
 
 	public void setPrice(float price2) throws IllegalVinylPrice{
-		if (price2 > 0.0) {
+		if (price2 >= 0.0) {
 			
 			if (this.getDiscount() == 0.0)
 				this.price = price2;
@@ -142,8 +142,8 @@ public class Vinyl {
 			artists += " ["+this.songs.get(i).getArtist()+"] ";
 
 		
-		return "Vinyl [vinylID=" + vinylID + ", name=" + name +", artist=" + artists + ", description=" + description + ", releaseDate=" + releaseYear
-				+ ", format=" + format + ", condition=" + condition + ", price=" + price + ", songs=" + songs + "]";
+		return "vinylID:" + vinylID + ", name:" + name +", artist:" + artists + ", description:" + description + ", releaseDate:" + releaseYear
+				+ ", format:" + format + ", condition:" + condition + ", price:" + price + ", songs:" + songs ;
 	}
 	
 

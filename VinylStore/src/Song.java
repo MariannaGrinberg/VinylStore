@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Song {
@@ -6,10 +7,10 @@ public class Song {
 	private int songID;
 	private String name;
 	private String artist;
-	private Date releaseDate; 
+	private LocalDate releaseDate; 
 	private Genre genre;
 	
-	public Song(String name, String artist, Date releaseDate, Genre genre) {
+	public Song(String name, String artist, LocalDate releaseDate, Genre genre) {
 		songID = num++; 
 		setName(name);
 		setArtist(artist);
@@ -32,7 +33,7 @@ public class Song {
 		return artist;
 	}
 	
-	public Date getReleaseDate() {
+	public LocalDate getReleaseDate() {
 		return releaseDate;
 	}
 	
@@ -50,7 +51,7 @@ public class Song {
 		this.artist = artist;
 	}
 	
-	public void setReleaseDate(Date releaseDate) {
+	public void setReleaseDate(LocalDate releaseDate) {
 		this.releaseDate = releaseDate;
 	}
 	

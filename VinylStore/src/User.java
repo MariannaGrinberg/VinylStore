@@ -7,12 +7,12 @@ public abstract class User {
 	protected String firstName;
 	protected String lastName; 
 	protected Address address; 
-	protected int phoneNumber; 
+	protected String phoneNumber; 
 	protected String email; 
 	
 
 	public User(int ID, String username, String password, String firstName,
-					String lastName, Address address, int phoneNumber, String email) throws InvalidUserName,IlegalPassword {
+					String lastName, Address address, String phoneNumber, String email) throws InvalidUserName,IlegalPassword {
 		
 		setID(ID);
 		setUsername(username);
@@ -57,7 +57,7 @@ public abstract class User {
 	}
 	
 	
-	public int getPhoneNumber() {
+	public String getPhoneNumber() {
 		return phoneNumber;
 	}
 
@@ -104,7 +104,7 @@ public abstract class User {
 	}
 
 
-	public void setPhoneNumber(int phoneNumber) {
+	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 

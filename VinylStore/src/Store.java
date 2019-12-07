@@ -3,12 +3,13 @@ import java.util.ArrayList;
 public class Store {
 	
 	// Attributes
-	int num = 0;
-	int storeID;
-	String name;
-	ArrayList<Vinyl> products;
+	static int num = 0;
+	private int storeID;
+	private String name;
+	private ArrayList<Vinyl> products;
 
 	public Store(String name) {
+		products = new ArrayList<>(); 
 		setStoreID();
 		setName(name);
 	}

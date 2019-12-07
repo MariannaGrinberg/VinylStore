@@ -1,5 +1,6 @@
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
@@ -335,19 +336,12 @@ public class Main {
 		String date = in.next();
 		
 		Genre ganre = inputGenre(); 
-		
-		try {
 			
-			Date releaseDate=new SimpleDateFormat("dd/MM/yyyy").parse(date);
-		
-			return new Song(songName, artist, releaseDate, ganre); 
-		
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
+		LocalDate releaseDate = LocalDate.of(in.nextInt(), in.nextInt(), in.nextInt());
 	
-		return null; 
+		return new Song(songName, artist, releaseDate, ganre); 
 
+
+	
 	}
 }
