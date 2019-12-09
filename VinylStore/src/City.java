@@ -1,5 +1,6 @@
 enum City {
-	A,
-	B,
-	C
+	TLV,
+	Haifa,
+	Afula,
+	Other
 }

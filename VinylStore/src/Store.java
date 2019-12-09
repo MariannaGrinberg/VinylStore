@@ -7,9 +7,15 @@ public class Store {
 	private int storeID;
 	private String name;
 	private ArrayList<Vinyl> products;
+	private ArrayList<Customer> customers;
+	private ArrayList<Employee> employees;
+	private ArrayList<Order> orders;
 
 	public Store(String name) {
 		products = new ArrayList<>(); 
+		customers = new ArrayList<>();
+		employees = new ArrayList<>();
+		orders = new ArrayList<>();
 		setStoreID();
 		setName(name);
 	}
@@ -40,11 +46,116 @@ public class Store {
 		return this.products;
 	}
 	
+	public ArrayList<Customer> getCustomers() {
+		return this.customers;
+	}
 	
-	// Add product
+	public ArrayList<Employee> getEmployees() {
+		return this.employees;
+	}
+	
+	private ArrayList<Order> getOrders() {
+		return this.orders;
+	}
+	
+	public Customer getCustomerByID(int ID) {
+		
+		for (Customer customer : this.customers) {
+			if (customer.getID() == ID) {
+				return customer;
+			}
+		}
+		
+		return null;
+	}
+	
+	public Employee getEmployeeByID(int ID) {
+		
+		for (Employee employee : this.employees) {
+			if (employee.getID() == ID) {
+				return employee;
+			}
+		}
+		
+		return null;
+	}
+	
+	public Order getOrderByID(int ID) {
+		
+		for (Order order : this.orders) {
+			if (order.getOrderID() == ID) {
+				return order;
+			}
+		}
+		
+		return null;
+	}
+	
+	public ArrayList<Order> getHandledOrders() {
+		ArrayList<Order> handledOrders = new ArrayList<Order>();
+		
+		for (Order order : this.orders) {
+			if (order.getEmployee() != null) {
+				handledOrders.add(order);
+			}
+		}
+		
+		return handledOrders;
+	}
+	
+	public ArrayList<Order> getNotHandledOrders() {
+		ArrayList<Order> notHandledOrders = new ArrayList<Order>();
+		
+		for (Order order : this.orders) {
+			if (order.getEmployee() == null) {
+				notHandledOrders.add(order);
+			}
+		}
+		
+		return notHandledOrders;
+	}
+	
+	public ArrayList<Order> getOrdersByCustomerID(int ID) {
+		ArrayList<Order> orders = new ArrayList<Order>();
+		
+		for (Order order : this.orders) {
+			if (order.getCustomer().getID() == ID) {
+				orders.add(order);
+			}
+		}
+		
+		return orders;
+	}
+	
+	public ArrayList<Order> getOrderByEmployeeID(int ID) {
+		ArrayList<Order> orders = new ArrayList<Order>();
+		
+		for (Order order : this.orders) {
+			if (order.getEmployee().getID() == ID) {
+				orders.add(order);
+			}
+		}
+		
+		return orders;
+	}
+	
+	
+	// Add
 	
 	public void addProduct(Vinyl vinyl) {
 		this.products.add(vinyl);
+	}
+	
+	public void addCustomer(Customer customer) {
+		this.customers.add(customer);
+	}
+	
+	public void addEmployee(Employee employee) {
+		this.employees.add(employee);
+	}
+	
+	public void addOrder(Order order) {
+		this.orders.add(order);
 	}
 
 

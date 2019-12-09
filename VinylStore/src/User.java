@@ -1,7 +1,7 @@
 
 public abstract class User {
 	
-	protected int ID; 
+	protected String ID; 
 	protected String username; 
 	protected String password; 
 	protected String firstName;
@@ -11,7 +11,7 @@ public abstract class User {
 	protected String email; 
 	
 
-	public User(int ID, String username, String password, String firstName,
+	public User(String ID, String username, String password, String firstName,
 					String lastName, Address address, String phoneNumber, String email) throws InvalidUserName,IlegalPassword {
 		
 		setID(ID);
@@ -27,7 +27,7 @@ public abstract class User {
 
 	// Getters
 	
-	public int getID() {
+	public String getID() {
 		return ID;
 	}
 
@@ -68,7 +68,7 @@ public abstract class User {
 
 	// Setters
 	
-	public void setID(int ID) {
+	public void setID(String ID) {
 		this.ID = ID;
 	}
 

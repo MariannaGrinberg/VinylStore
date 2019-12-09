@@ -11,24 +11,19 @@ public class main2 {
 			Vinyl v1 = new Vinyl("Mixed Vinyl", "", "2019", Format.TWELVE_SINGLE, Condition.BrandNew, 80 , 0);
 		
 			//Song Number 1 in the first Vinyl
-			LocalDate date1 =  LocalDate.of(2019, 4, 18);
-			Song memories = new Song("Memories", "Maroon5", date1, Genre.Pop);
+			Song memories = new Song("Memories", "Maroon5", Genre.Pop);
 			
 			//Song Number 2 in the first Vinyl
-			LocalDate date2 =  LocalDate.of(2018, 1, 25);
-			Song PhoneNumbers = new Song("Phone Numbers", "Dominic Fike", date2, Genre.NewAge);
+			Song PhoneNumbers = new Song("Phone Numbers", "Dominic Fike", Genre.NewAge);
 			
 			//Song Number 3 in the first Vinyl
-			LocalDate date3 =  LocalDate.of(2017, 8, 17);
-			Song Perfect = new Song("Perfect", "Ed Sheeran", date3, Genre.Classical);
+			Song Perfect = new Song("Perfect", "Ed Sheeran", Genre.Classical);
 			
 			//Song Number 4 in the first Vinyl
-			LocalDate date4 =  LocalDate.of(2018, 12, 10);
-			Song Nights = new Song("3 Nights", "Dominic Fike", date4, Genre.RnB );
+			Song Nights = new Song("3 Nights", "Dominic Fike", Genre.RnB );
 			
 			//Song Number 5 in the first Vinyl
-			LocalDate date5 =  LocalDate.of(2016, 7, 21);
-			Song InMyHead = new Song("In My Head", "Ryland James", date5, Genre.Pop );
+			Song InMyHead = new Song("In My Head", "Ryland James", Genre.Pop );
 			
 			// Add Song to First Vinyl
 			v1.addSong(memories);
@@ -49,21 +44,22 @@ public class main2 {
 			//ADD first Employee
 			Address employeeAdress = new Address(City.B, "balfur", "2", "-");
 			
-			Employee yval = new Employee(320827394, "manager","567890", "Yval", "Parnas", 
-					employeeAdress, "0526431526", "Yuvii.p@gmail.com ", date5);
+			LocalDate date =  LocalDate.of(2016, 7, 21);
+			Employee yuval = new Employee(320827394, "manager","567890", "Yval", "Parnass", 
+					employeeAdress, "0549305781", "Yuvii.p@gmail.com ", date);
 		
 			
 			//Coustumer Do a Order 
-			Order number1 = new Order(yval, marianna,LocalDate.now(), 10);
+			Order order1 = new Order(yuval, marianna,LocalDate.now(), 10);
 		
 			//Add Product to Order.
-			number1.addProducts(v1);
+			order1.addProducts(v1);
 
 			//Set DeliveryDate for 5 Days 
-			number1.setDeliveryDate(number1.getOrderDate().plusDays(5));
+			order1.setDeliveryDate(order1.getOrderDate().plusDays(5));
 			
 			//Print the Order 
-			System.out.println(number1);
+			System.out.println(order1);
 			
 			//Print the products for sale
 			System.out.println(store);

@@ -66,7 +66,6 @@ public class Vinyl {
 
 	//Setters
 
-
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -143,7 +142,7 @@ public class Vinyl {
 
 		
 		return "vinylID:" + vinylID + ", name:" + name +", artist:" + artists + ", description:" + description + ", releaseDate:" + releaseYear
-				+ ", format:" + format + ", condition:" + condition + ", price:" + price + ", songs:" + songs ;
+				+ ", format:" + format + ", condition:" + condition + ", price:" + price + "$, songs:" + songs ;
 	}
 	
 

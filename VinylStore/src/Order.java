@@ -13,8 +13,8 @@ public class Order {
 	private Customer customer;
 	private ArrayList<Vinyl> products;
 	private double totalPrice;
-	private LocalDate orderDate;
-	private LocalDate deliveryDate = null;
+	private Date orderDate;
+	private Date deliveryDate = null;
 	private Address shipAddress;
 	private int discount;
 
@@ -22,7 +22,7 @@ public class Order {
 	// Constructor
 	
 	public Order(Employee employee, Customer customer, 
-			LocalDate orderDate, int discount)  throws IllegalVinylPrice {
+				 Date orderDate, int discount)  throws IllegalVinylPrice {
 		
 		products = new ArrayList<>(); 
 		setOrderID(orderID);
@@ -60,12 +60,12 @@ public class Order {
 		this.shipAddress = customer.getAddress();
 	}
 
-	public void setOrderDate(LocalDate orderDate) {
+	public void setOrderDate(Date orderDate) {
 		this.orderDate = orderDate;
 	}
 
-	public void setDeliveryDate(LocalDate deliveryDate) {
-		this.deliveryDate = deliveryDate;
+	public void setDeliveryDate(Date orderDate2) {
+		this.deliveryDate = orderDate2;
 	}
 	
 	public void setDiscount(int discount) {
@@ -75,7 +75,7 @@ public class Order {
 	
 	// Getters
 	
-	public LocalDate getDeliveryDate() {
+	public Date getDeliveryDate() {
 		return deliveryDate;
 	}
 
@@ -99,7 +99,7 @@ public class Order {
 		return products;
 	}
 
-	public LocalDate getOrderDate() {
+	public Date getOrderDate() {
 		return orderDate;
 	}
 	
@@ -142,7 +142,7 @@ public class Order {
 		
 		try {
 			return "Order [orderID=" + this.orderID + ", customerID=" + this.customer.getID() + ", employeeID=" + this.employee.getID()
-					+ ", orderDate=" + this.orderDate + ", deliveryDate=" + this.deliveryDate + ", shipAddress=" + this.shipAddress +", products=" + products + ", totalPrice=" + this.getTotalPrice() + "]";
+					+ ", orderDate=" + this.orderDate + ", deliveryDate=" + this.deliveryDate + ", shipAddress=" + this.shipAddress +", products=" + products + ", totalPrice=" + this.getTotalPrice() + "$]";
 		} catch (IllegalVinylPrice e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
