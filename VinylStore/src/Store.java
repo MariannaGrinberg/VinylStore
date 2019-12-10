@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Store {
 	
@@ -43,22 +44,32 @@ public class Store {
 	}
 	
 	public ArrayList<Vinyl> getProducts() {
+		
+		Collections.sort(this.products);
 		return this.products;
 	}
 	
 	public ArrayList<Customer> getCustomers() {
+		
+		Collections.sort(this.customers);
 		return this.customers;
 	}
 	
 	public ArrayList<Employee> getEmployees() {
+		
+		Collections.sort(this.employees);
 		return this.employees;
+		
 	}
 	
 	private ArrayList<Order> getOrders() {
+		
+		Collections.sort(this.orders);
 		return this.orders;
+		
 	}
 	
-	public Customer getCustomerByID(int ID) {
+	public Customer getCustomerByID(String ID) {
 		
 		for (Customer customer : this.customers) {
 			if (customer.getID() == ID) {
@@ -69,7 +80,7 @@ public class Store {
 		return null;
 	}
 	
-	public Employee getEmployeeByID(int ID) {
+	public Employee getEmployeeByID(String ID) {
 		
 		for (Employee employee : this.employees) {
 			if (employee.getID() == ID) {
@@ -115,7 +126,7 @@ public class Store {
 		return notHandledOrders;
 	}
 	
-	public ArrayList<Order> getOrdersByCustomerID(int ID) {
+	public ArrayList<Order> getOrdersByCustomerID(String ID) {
 		ArrayList<Order> orders = new ArrayList<Order>();
 		
 		for (Order order : this.orders) {
@@ -127,7 +138,7 @@ public class Store {
 		return orders;
 	}
 	
-	public ArrayList<Order> getOrderByEmployeeID(int ID) {
+	public ArrayList<Order> getOrderByEmployeeID(String ID) {
 		ArrayList<Order> orders = new ArrayList<Order>();
 		
 		for (Order order : this.orders) {
@@ -161,6 +172,8 @@ public class Store {
 
 	@Override
 	public String toString() {
+		
+		Collections.sort(this.products);
 		String products = "";
 		
 		for (Vinyl product : this.products) {

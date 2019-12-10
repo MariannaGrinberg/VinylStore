@@ -1,8 +1,9 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
-public class Order {
+public class Order implements Comparable<Order>{
 
 	
 	// Attributes
@@ -13,8 +14,8 @@ public class Order {
 	private Customer customer;
 	private ArrayList<Vinyl> products;
 	private double totalPrice;
-	private Date orderDate;
-	private Date deliveryDate = null;
+	private LocalDate orderDate;
+	private LocalDate deliveryDate = null;
 	private Address shipAddress;
 	private int discount;
 
@@ -22,7 +23,7 @@ public class Order {
 	// Constructor
 	
 	public Order(Employee employee, Customer customer, 
-				 Date orderDate, int discount)  throws IllegalVinylPrice {
+			LocalDate orderDate, int discount)  throws IllegalVinylPrice, IlegalDate {
 		
 		products = new ArrayList<>(); 
 		setOrderID(orderID);
@@ -60,12 +61,16 @@ public class Order {
 		this.shipAddress = customer.getAddress();
 	}
 
-	public void setOrderDate(Date orderDate) {
+	public void setOrderDate(LocalDate orderDate) {
 		this.orderDate = orderDate;
 	}
 
-	public void setDeliveryDate(Date orderDate2) {
-		this.deliveryDate = orderDate2;
+	public void setDeliveryDate(LocalDate deliveryDate) throws IlegalDate{
+		
+		if(deliveryDate.isBefore(this.orderDate))
+			throw new IlegalDate("Delivery Date Must Be After Order Date"); 
+			
+		else this.deliveryDate = deliveryDate;
 	}
 	
 	public void setDiscount(int discount) {
@@ -75,7 +80,7 @@ public class Order {
 	
 	// Getters
 	
-	public Date getDeliveryDate() {
+	public LocalDate getDeliveryDate() {
 		return deliveryDate;
 	}
 
@@ -99,7 +104,7 @@ public class Order {
 		return products;
 	}
 
-	public Date getOrderDate() {
+	public LocalDate getOrderDate() {
 		return orderDate;
 	}
 	
@@ -132,6 +137,8 @@ public class Order {
 	@Override
 	public String toString() {
 		
+		Collections.sort(this.products);
+		
 		String products = "";
 		
 		for(int i = 0; i < this.products.size(); i++) {
@@ -149,6 +156,18 @@ public class Order {
 		}
 		return products;
 
+	}
+
+
+
+
+	@Override
+	public int compareTo(Order o) {
+		
+		if(this.orderDate.isBefore(o.orderDate) || this.orderDate.equals(o.orderDate))
+			return 1; 
+		
+		else return -1; 
 	}
 	
 }

@@ -1,7 +1,9 @@
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 
-public class Vinyl {
+public class Vinyl implements Comparable<Vinyl> {
 
 	static int num = 0; 
 	private int vinylID;
@@ -134,6 +136,8 @@ public class Vinyl {
 		String songs = "";
 		String artists = "";
 		
+		Collections.sort(this.songs);
+		
 		for(int i = 0; i < this.songs.size(); i++) 
 			songs += " ["+this.songs.get(i)+"] ";
 		
@@ -143,6 +147,13 @@ public class Vinyl {
 		
 		return "vinylID:" + vinylID + ", name:" + name +", artist:" + artists + ", description:" + description + ", releaseDate:" + releaseYear
 				+ ", format:" + format + ", condition:" + condition + ", price:" + price + "$, songs:" + songs ;
+	}
+
+	@Override
+	public int compareTo(Vinyl v) {
+		
+		return this.vinylID - v.vinylID;
+
 	}
 	
 

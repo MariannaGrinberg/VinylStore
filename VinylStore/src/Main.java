@@ -48,7 +48,7 @@ public class Main {
 
 			Address employeeAdress = new Address(City.Haifa, "balfur", "2", "-");
 
-			Date date = new Date();
+			LocalDate date = LocalDate.of(1993, 1, 13);
 			Employee yuval = new Employee("320827394", "manager","567890", "Yuval", "Parnass", 
 					employeeAdress, "0549305781", "Yuvii.p@gmail.com ", date);
 			
@@ -60,15 +60,16 @@ public class Main {
 
 			Customer marianna = new Customer("320821374", "Marianna", "1234567", "Marianna",
 					"Grinberg", customerAddres, "0546431326", 
-					"marianna4268@gmail.com", date);
+					"marianna4268@gmail.com", LocalDate.of(1996, 2, 4));
 			
 			store.addCustomer(marianna);
 
 			// Order
-
-			Order order = new Order(yuval, marianna, date, 0);
+			
+			Order order = new Order(yuval, marianna, LocalDate.now(), 0);
 			order.addProducts(vinyl);
-
+				
+		
 			// Main
 
 			System.out.println("Welcome to " + store.getName() + "!!");
@@ -131,14 +132,14 @@ public class Main {
 			}
 
 
-		} catch (InvalidUserName | IlegalPassword |IllegalVinylPrice e) {
+		} catch (InvalidUserName | IlegalPassword |IllegalVinylPrice | IlegalDate e) {
 
 			e.printStackTrace();
 
 		}	
 	}
 
-	private static Employee newEmployee() throws InvalidUserName, IlegalPassword {
+	private static Employee newEmployee() {
 		// Employee ID
 		System.out.println("Enter Employee ID: ");
 		String ID = in.next();
@@ -171,14 +172,24 @@ public class Main {
 		String email = in.next();
 		
 		// Date
-		Date date = new Date();
+		LocalDate date = LocalDate.now(); 
 
-		Employee employee = new Employee(ID, userName, password, firstName, lastName, address, phoneNumber, email, date);
+		Employee employee = null;
+	
+		try {
+		
+			employee = new Employee(ID, userName, password, firstName, lastName, address, phoneNumber, email, date);
+		
+		} catch (InvalidUserName | IlegalPassword e) {
+		
+			e.printStackTrace();
+	
+		}
 		
 		return employee;
 	}
 
-	private static Customer newCustomer(Store store) throws InvalidUserName, IlegalPassword {
+	private static Customer newCustomer(Store store){
 		// Customer ID
 		System.out.println("Enter Customer ID: ");
 		String ID = in.next();
@@ -211,9 +222,17 @@ public class Main {
 		String email = in.next();
 		
 		// Date
-		Date date = new Date();
+		 LocalDate date = LocalDate.now();
 
-		Customer customer = new Customer(ID, userName, password, firstName, lastName, address, phoneNumber, email, date);
+		Customer customer = null; ;
+		try {
+			
+			customer = new Customer(ID, userName, password, firstName, lastName, address, phoneNumber, email, date);
+	
+		} catch (InvalidUserName | IlegalPassword e) {
+		
+			e.printStackTrace();
+		}
 		
 		return customer;
 	}
@@ -228,7 +247,7 @@ public class Main {
 			System.out.println("Choose City: \n"
 					+ "1. TLV \n"
 					+ "2. Haifa \n"
-					+ "3. Afula"
+					+ "3. Afula \n"
 					+ "4. Other ");
 			input = in.nextInt();
 		}
@@ -626,5 +645,19 @@ public class Main {
 		Genre ganre = inputGenre(); 
 
 		return new Song(songName, artist, ganre); 
+	}
+	
+	private static int customerMenu() {
+		
+		int input = 0;
+		while (0 > input || input > 2) {
+
+			System.out.println("Choose City: \n"
+					+ "1. Place an Order \n"
+					+ "2. Show my Orders \n\n"
+					+ "0. Back");
+			input = in.nextInt();
+		}
+		return input; 
 	}
 }
