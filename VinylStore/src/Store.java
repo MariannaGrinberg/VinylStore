@@ -49,6 +49,17 @@ public class Store {
 		return this.products;
 	}
 	
+	public Vinyl getProductByID(int ID) {
+		
+		for (Vinyl product : this.products) {
+			if (product.getVinylID() == ID) {
+				return product;
+			}
+		}
+		
+		return null;
+	}
+	
 	public ArrayList<Customer> getCustomers() {
 		
 		Collections.sort(this.customers);
