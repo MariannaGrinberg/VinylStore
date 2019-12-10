@@ -140,8 +140,10 @@ public class Order implements Comparable<Order>{
 		
 		
 		try {
-			return "Order [orderID=" + this.orderID + ", customerID=" + this.customer.getID() + ", employeeID=" + this.employee.getID()
-					+ ", orderDate=" + this.orderDate + ", deliveryDate=" + this.deliveryDate + ", shipAddress=" + this.shipAddress +", products=" + products + ", totalPrice=" + this.getTotalPrice() + "$]";
+			return "Order [orderID=" + this.orderID + ", customerID=" + this.customer.getID()
+				+ ", orderDate=" + this.orderDate + ", deliveryDate=" + this.deliveryDate 
+				+ ", shipAddress=" +this.customer.getAddress() +", products=" + products 
+				+ ", totalPrice=" + this.getTotalPrice() + "$]";
 		} catch (IllegalVinylPrice e) {
 			e.printStackTrace();
 		}
@@ -149,9 +151,6 @@ public class Order implements Comparable<Order>{
 
 		}
 	}
-
-
-
 
 	@Override
 	public int compareTo(Order o) {

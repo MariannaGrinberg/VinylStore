@@ -51,6 +51,8 @@ public class Store {
 	
 	public Vinyl getProductByID(int ID) {
 		
+		Collections.sort(this.products);
+		
 		for (Vinyl product : this.products) {
 			if (product.getVinylID() == ID) {
 				return product;
