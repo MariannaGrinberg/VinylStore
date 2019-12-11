@@ -108,7 +108,7 @@ public class Main {
 							continue;
 
 						case 6:
-							Customer customer = newCustomer(store);
+							Customer customer = newCustomer();
 							store.addCustomer(customer);
 							continue;
 
@@ -177,9 +177,9 @@ public class Main {
 
 
 		} catch (InvalidUserName | IlegalPassword |IllegalVinylPrice | IlegalDate e) {
-
-			e.printStackTrace();
-
+			
+			System.out.println(e.getMessage() + "Please try again");
+	
 		}	
 	}
 
@@ -208,12 +208,16 @@ public class Main {
 			System.out.println("Enter Delivery Date: ");
 			
 			try {
+				
 				orderToHandle.setDeliveryDate(inputDate());
 				orderToHandle.setEmployee(employee);
 				
 				System.out.println("Done!!");
+		
 			} catch (IlegalDate e) {
-				e.printStackTrace();
+		
+				System.out.println(e.getMessage() + "Please try again");
+			
 			};
 			
 		}
@@ -278,6 +282,7 @@ public class Main {
 					continue;
 
 				case 2:
+				
 					System.out.println("Choose Vinyl from the options below:");
 
 					int vinylID = -1;
@@ -311,14 +316,18 @@ public class Main {
 
 					return order;
 
-				default:
+				default: 
 					continue;
 
 				}
 			}
+			
 		} catch (IllegalVinylPrice | IlegalDate e) {
-			e.printStackTrace();
+		
+			System.out.println(e.getMessage() + "Please try again");
+		
 		}
+		
 		return null;
 	}
 
@@ -379,14 +388,19 @@ public class Main {
 
 			} catch (InvalidUserName | IlegalPassword e) {
 
-				e.printStackTrace();
+				System.out.println(e.getMessage() + "Please try again");
 
 			}
 
 			return employee;
 		}
 
-		private static Customer newCustomer(Store store){
+		private static Customer newCustomer(){
+		
+			Customer customer = null; 
+			
+			try { 
+				
 			// Customer ID
 			System.out.println("Enter Customer ID: ");
 			String ID = in.next();
@@ -421,14 +435,15 @@ public class Main {
 			// Date
 			LocalDate date = LocalDate.now();
 
-			Customer customer = null; ;
-			try {
 
-				customer = new Customer(ID, userName, password, firstName, lastName, address, phoneNumber, email, date);
-
+			customer = new Customer(ID, userName, password, firstName, lastName, address, phoneNumber, email, date);
+			System.out.println("Customer Added Succesfuly");
+			
+			
 			} catch (InvalidUserName | IlegalPassword e) {
 
-				e.printStackTrace();
+				System.out.println(e.getMessage() + "Please try again");
+
 			}
 
 			return customer;
@@ -627,7 +642,7 @@ public class Main {
 
 			} catch (IllegalVinylPrice e) {
 
-				e.printStackTrace();
+				System.out.println(e.getMessage() + "Please try again");
 			}
 			return null; 
 
