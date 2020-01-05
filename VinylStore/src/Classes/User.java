@@ -1,6 +1,13 @@
+package Classes;
+import java.io.Serializable;
 
-public abstract class User {
+import Exceptions.IlegalPassword;
+import Exceptions.InvalidUserName;
+
+public abstract class User implements Serializable {
 	
+	private static final long serialVersionUID = 6770373975976947387L;
+
 	protected String ID; 
 	protected String username; 
 	protected String password; 

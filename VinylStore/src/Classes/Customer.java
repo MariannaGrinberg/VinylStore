@@ -1,27 +1,44 @@
+package Classes;
+
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Customer extends User implements Comparable<Customer>{
+import Exceptions.IlegalPassword;
+import Exceptions.InvalidUserName;
+
+public class Customer extends User implements Comparable<Customer>, Serializable{
 	
-	private ArrayList<Order> orders;
+	private ArrayList<Vinyl> cart;
 
 	public Customer(String ID, String username, String password, String firstName, String lastName, 
 					 Address address,String phoneNumber, String email, LocalDate date)  
 							 throws InvalidUserName, IlegalPassword {
 	
 		super(ID, username, password, firstName, lastName, address, phoneNumber, email);
-		orders = new ArrayList<>();
+		this.cart = new ArrayList<>();
 	
 	}
 	
-	public ArrayList<Order> getOrders() {
-		return orders;
+	public String getID() {
+		return this.ID;
 	}
-
-
-	public void addOrder(Order order) {
-		this.orders.add(order);
+	
+	public ArrayList<Vinyl> getCart() {
+		return this.cart;
+	}
+	
+	public void addToCart(Vinyl vinyl) {
+		this.cart.add(vinyl);
+	}
+	
+	public void removeFromCart(int productIndex) {
+		this.cart.remove(productIndex);
+	}
+	
+	public void clearCart() {
+		this.cart = new ArrayList<>();
 	}
 
 	

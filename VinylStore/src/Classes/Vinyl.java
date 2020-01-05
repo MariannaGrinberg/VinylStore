@@ -1,9 +1,17 @@
+package Classes;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 
-public class Vinyl implements Comparable<Vinyl> {
+import Exceptions.IllegalVinylPrice;
+import enums.Condition;
+import enums.Format;
+
+public class Vinyl implements Comparable<Vinyl>, Serializable  {
+
+	private static final long serialVersionUID = 3464064106850621402L;
 
 	static int num = 0; 
 	private int vinylID;

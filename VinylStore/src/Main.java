@@ -5,6 +5,22 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
+import Classes.Address;
+import Classes.Customer;
+import Classes.Employee;
+import Classes.Order;
+import Classes.Song;
+import Classes.Store;
+import Classes.Vinyl;
+import Exceptions.IlegalDate;
+import Exceptions.IlegalPassword;
+import Exceptions.IllegalVinylPrice;
+import Exceptions.InvalidUserName;
+import enums.City;
+import enums.Condition;
+import enums.Format;
+import enums.Genre;
+
 public class Main {
 
 	static Scanner in = new Scanner(System.in);
@@ -515,9 +531,9 @@ public class Main {
 
 		private static void printOrdersOf(Customer customer) {
 
-			for (Order order : customer.getOrders()) {
-				System.out.println(order);
-			}
+//			for (Order order : customer.getOrders()) {
+//				System.out.println(order);
+//			}
 		}
 
 		private static void showCustomers(Store store) {

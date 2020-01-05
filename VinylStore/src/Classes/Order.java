@@ -1,9 +1,15 @@
+package Classes;
+
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 
-public class Order implements Comparable<Order>{
+import Exceptions.IlegalDate;
+import Exceptions.IllegalVinylPrice;
+
+public class Order implements Comparable<Order>, Serializable {
 
 	
 	// Attributes
@@ -23,12 +29,11 @@ public class Order implements Comparable<Order>{
 	
 	public Order(Customer customer, LocalDate orderDate)  throws IllegalVinylPrice, IlegalDate {
 		
+		this.orderID = ++num;
 		products = new ArrayList<>(); 
-		setOrderID(orderID);
 		setCustomer(customer);
 		setProducts(products);
 		setOrderDate(orderDate);
-		setDeliveryDate(orderDate);
 		setShipAddress();
 	}
 	
@@ -37,10 +42,6 @@ public class Order implements Comparable<Order>{
 
 	// Setters
 	
-	public void setOrderID(int orderID) {
-		this.orderID = ++num;
-	}
-
 	public void setEmployee(Employee employee) {
 		this.employee = employee;
 	}
@@ -101,6 +102,7 @@ public class Order implements Comparable<Order>{
 	}
 	
 	public double getTotalPrice()  throws IllegalVinylPrice {
+		this.totalPrice = 0;
 		for (Vinyl product : this.products) {
 			this.totalPrice += product.getPrice();
 		}
@@ -114,6 +116,15 @@ public class Order implements Comparable<Order>{
 		}
 	}
 	
+	public String getStatus() {
+		if(this.employee == null) {
+			return "In Proccess";
+		}
+		else {
+			return "Delivered";
+		}
+	}
+	
 	public void addProducts(Vinyl vinyl) {
 		this.products.add(vinyl);
 		
@@ -122,35 +133,34 @@ public class Order implements Comparable<Order>{
 	
 	@Override
 	public String toString() {
-		
+
 		if (this.products.isEmpty()) {
-			return "There is no Products in this store";
+			return "There is no Products in this Order";
 		}
 		else {
-			
-		
-		Collections.sort(this.products);
-		
-		String products = "";
-		
-		for(int i = 0; i < this.products.size(); i++) {
-			products += " "+this.products.get(i).getClass().getSimpleName()+"[" + this.products.get(i).getVinylID()+", "+ this.products.get(i).getName()+", "+this.products.get(i).getPrice()+"$]";
 
-		}
-		
-		
-		try {
-			return "Order [orderID=" + this.orderID + ", customerID=" + this.customer.getID()
-				+ ", orderDate=" + this.orderDate + ", deliveryDate=" + this.deliveryDate 
-				+ ", shipAddress=" +this.customer.getAddress() +", products=" + products 
-				+ ", totalPrice=" + this.getTotalPrice() + "$]";
-		} catch (IllegalVinylPrice e) {
-			e.printStackTrace();
-		}
-		return products;
 
+			Collections.sort(this.products);
+
+			String str = "";
+			ArrayList<Integer> productIDs = new ArrayList<>();
+
+			for(Vinyl product : this.products) {
+				if(!(productIDs.contains(product.getVinylID()))) {
+					productIDs.add(product.getVinylID());
+					str += "#" + product.getVinylID() + " - " + product.getName() + " - " + product.getPrice() + "$     X " + getNumberOf(product.getVinylID()) + "\n";
+				}
+				else {
+					continue;
+				}
+			}
+
+
+			return str;
 		}
 	}
+
+	
 
 	@Override
 	public int compareTo(Order o) {
@@ -159,6 +169,19 @@ public class Order implements Comparable<Order>{
 			return 1; 
 		
 		else return -1; 
+	}
+	
+	private int getNumberOf(int ID) {
+		
+		int count = 0;
+		
+		for(Vinyl product : this.products) {
+			if(product.getVinylID() == ID)
+				count++;
+		}
+		
+		return count;
+		
 	}
 	
 }

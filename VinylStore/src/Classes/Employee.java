@@ -1,7 +1,14 @@
+package Classes;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
 
-public class Employee extends User implements Comparable<Employee> {
+import Exceptions.IlegalPassword;
+import Exceptions.InvalidUserName;
+
+public class Employee extends User implements Comparable<Employee>, Serializable  {
+
+	private static final long serialVersionUID = -47294228207066246L;
 
 	private LocalDate startWorkingDate;
 	

@@ -1,7 +1,14 @@
+package Classes;
+import java.io.Serializable;
 
-public class Address {
+import enums.City;
+
+public class Address implements Serializable {
 	
 
+
+	private static final long serialVersionUID = -5779274771630847263L;
+	
 	// Attributes
 	
 	City city;

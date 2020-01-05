@@ -1,6 +1,12 @@
+package Classes;
+import java.io.Serializable;
 
-public class Song implements Comparable<Song> {
+import enums.Genre;
 
+public class Song implements Comparable<Song>, Serializable  {
+
+	private static final long serialVersionUID = -8070433891061115939L;
+	
 	static int num = 0; 
 	private int songID;
 	private String name;

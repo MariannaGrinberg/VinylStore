@@ -1,8 +1,13 @@
+package Classes;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Store {
+public class Store implements Serializable {
 	
+
+	private static final long serialVersionUID = 4856934097028409796L;
+
 	// Attributes
 	static int num = 0;
 	private int storeID;
@@ -10,6 +15,7 @@ public class Store {
 	private ArrayList<Vinyl> products;
 	private ArrayList<Customer> customers;
 	private ArrayList<Employee> employees;
+	private ArrayList<User> users;
 	private ArrayList<Order> orders;
 
 	public Store(String name) {
@@ -17,6 +23,7 @@ public class Store {
 		customers = new ArrayList<>();
 		employees = new ArrayList<>();
 		orders = new ArrayList<>();
+		users = new ArrayList<>();
 		setStoreID();
 		setName(name);
 	}
@@ -49,6 +56,12 @@ public class Store {
 		return this.products;
 	}
 	
+	public ArrayList<User> getUsers() {
+		
+		return this.users;
+		
+	}
+	
 	public Vinyl getProductByID(int ID) {
 		
 		Collections.sort(this.products);
@@ -75,7 +88,7 @@ public class Store {
 		
 	}
 	
-	private ArrayList<Order> getOrders() {
+	public ArrayList<Order> getOrders() {
 		
 		Collections.sort(this.orders);
 		return this.orders;
@@ -85,7 +98,7 @@ public class Store {
 	public Customer getCustomerByID(String ID) {
 		
 		for (Customer customer : this.customers) {
-			if (customer.getID() == ID) {
+			if (customer.getID().equals(ID)) {
 				return customer;
 			}
 		}
@@ -172,10 +185,16 @@ public class Store {
 	
 	public void addCustomer(Customer customer) {
 		this.customers.add(customer);
+		addUser(customer); 
 	}
 	
 	public void addEmployee(Employee employee) {
 		this.employees.add(employee);
+		addUser(employee); 
+	}
+	
+	private void addUser(User user) {
+		this.users.add(user);
 	}
 	
 	public void addOrder(Order order) {
