@@ -17,6 +17,8 @@ public class Store implements Serializable {
 	private ArrayList<Employee> employees;
 	private ArrayList<User> users;
 	private ArrayList<Order> orders;
+	private int lastOrderID = 0;
+	private int lastProductID = 0;
 
 	public Store(String name) {
 		products = new ArrayList<>(); 
@@ -39,8 +41,18 @@ public class Store implements Serializable {
 		this.name = name;
 	}
 	
+
+	
 	
 	// Getters
+	
+	public int getLastProductID() {
+		return this.lastProductID;
+	}
+	
+	public int getLastOrderID() {
+		return this.lastOrderID;
+	}
 	
 	public String getName() {
 		return this.name;
@@ -83,7 +95,7 @@ public class Store implements Serializable {
 	
 	public ArrayList<Employee> getEmployees() {
 		
-		Collections.sort(this.employees);
+	//	Collections.sort(this.employees);
 		return this.employees;
 		
 	}
@@ -109,12 +121,40 @@ public class Store implements Serializable {
 	public Employee getEmployeeByID(String ID) {
 		
 		for (Employee employee : this.employees) {
-			if (employee.getID() == ID) {
+			if (employee.getID().equals(ID)) {
 				return employee;
 			}
 		}
 		
 		return null;
+	}
+	
+	public boolean containsEmployee(Employee otherEmployee) {
+		
+		
+		for (Employee employee : this.employees) {
+			if(otherEmployee.getID().equals(employee.getID()) 
+					|| otherEmployee.getUsername().equals(employee.getUsername()))
+				return true; 
+			
+		}
+		
+		return false;
+	
+	}
+	
+	public boolean containsCustomer(Customer otherCustomer) {
+		
+
+		for (Customer customer : this.customers) {
+			if(otherCustomer.getID().equals(customer.getID()) 
+					|| otherCustomer.getUsername().equals(customer.getUsername()))
+				return true; 
+			
+		}
+		
+		return false;
+	
 	}
 	
 	public Order getOrderByID(int ID) {
@@ -181,6 +221,7 @@ public class Store implements Serializable {
 	
 	public void addProduct(Vinyl vinyl) {
 		this.products.add(vinyl);
+		this.lastProductID++;
 	}
 	
 	public void addCustomer(Customer customer) {
@@ -199,6 +240,7 @@ public class Store implements Serializable {
 	
 	public void addOrder(Order order) {
 		this.orders.add(order);
+		this.lastOrderID++;
 	}
 
 

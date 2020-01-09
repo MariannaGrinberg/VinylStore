@@ -31,6 +31,7 @@ import Classes.Employee;
 import Classes.Store;
 import Classes.User;
 import Classes.Vinyl;
+import CustomerGUI.CreateCustomer;
 import CustomerGUI.CustomerGUI;
 import EmployeeGUI.AdminPage;
 
@@ -90,7 +91,7 @@ public class LoginWindow {
 		frmVinylS.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\maria\\git\\VinylStore\\VinylStore\\\u05D4\u05D5\u05E8\u05D3\u05D4.png"));
 		frmVinylS.getContentPane().setBackground(new Color(240, 248, 255));
 		frmVinylS.setTitle("Login Window");
-		frmVinylS.setBounds(100, 100, 445, 405);
+		frmVinylS.setBounds(100, 100, 635, 636);
 		frmVinylS.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frmVinylS.getContentPane().setLayout(null);
 				
@@ -100,46 +101,64 @@ public class LoginWindow {
 		
 				
 				lblLogIn = new JLabel("Log In");
-				lblLogIn.setBounds(189, 37, 62, 23);
+				lblLogIn.setBounds(270, 84, 105, 45);
 				frmVinylS.getContentPane().add(lblLogIn);
-				lblLogIn.setFont(new Font("Tahoma", Font.BOLD, 19));
+				lblLogIn.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 26));
 				
 				lblUserName = new JLabel("User Name:");
-				lblUserName.setFont(new Font("Tahoma", Font.PLAIN, 18));
-				lblUserName.setBounds(89, 84, 102, 20);
+				lblUserName.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 22));
+				lblUserName.setBounds(88, 170, 127, 20);
 				frmVinylS.getContentPane().add(lblUserName);
 				
 				fieldName = new TextField();
-				fieldName.setBackground(new Color(245, 245, 245));
+				fieldName.setBackground(new Color(255, 250, 250));
 				lblUserName.setLabelFor(fieldName);
-				fieldName.setFont(new Font("Tahoma", Font.PLAIN, 16));
-				fieldName.setBounds(197, 84, 137, 24);
+				fieldName.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 22));
+				fieldName.setBounds(237, 159, 181, 37);
 				frmVinylS.getContentPane().add(fieldName);
 				
 				lblPassword = new JLabel("Password: ");
-				lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 18));
-				lblPassword.setBounds(89, 118, 102, 20);
+				lblPassword.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 22));
+				lblPassword.setBounds(88, 218, 119, 20);
 				frmVinylS.getContentPane().add(lblPassword);
 				
 				fieldPassword = new TextField();
-				fieldPassword.setBackground(new Color(245, 245, 245));
+				fieldPassword.setBackground(new Color(255, 250, 250));
 				lblPassword.setLabelFor(fieldPassword);
-				fieldPassword.setFont(new Font("Tahoma", Font.PLAIN, 16));
-				fieldPassword.setBounds(197, 114, 137, 24);
+				fieldPassword.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 22));
+				fieldPassword.setBounds(237, 210, 181, 37);
 				frmVinylS.getContentPane().add(fieldPassword);
 				
 				btnSubmit = new JButton("Submit");
-				btnSubmit.setFont(new Font("Tahoma", Font.BOLD, 16));
+				btnSubmit.setFont(new Font("Segoe UI Semibold", Font.BOLD, 18));
 				btnSubmit.setBackground(new Color(0, 51, 102));
 				btnSubmit.setForeground(new Color(255, 255, 255));
-				btnSubmit.setBounds(167, 160, 95, 29);
+				btnSubmit.setBounds(256, 290, 119, 37);
 				frmVinylS.getContentPane().add(btnSubmit);
 				
 				JTextPane txtpnForAdminLogin = new JTextPane();
-				txtpnForAdminLogin.setBackground(new Color(245, 245, 245));
-				txtpnForAdminLogin.setText("For Admin Login: \r\n\tuser name & password: ADMIN\r\n\r\nFor Cutomer Login: \r\n\tuser name & passworf: id");
-				txtpnForAdminLogin.setBounds(51, 215, 333, 118);
+				txtpnForAdminLogin.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 22));
+				txtpnForAdminLogin.setBackground(new Color(240, 248, 255));
+				txtpnForAdminLogin.setText("For Admin Login: Username & Password - ADMIN");
+				txtpnForAdminLogin.setBounds(69, 451, 498, 90);
 				frmVinylS.getContentPane().add(txtpnForAdminLogin);
+				
+				JButton btnNewButton = new JButton("Create New Account");
+				btnNewButton.setForeground(new Color(255, 255, 255));
+				btnNewButton.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 18));
+				btnNewButton.setBackground(new Color(102, 205, 170));
+				btnNewButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						
+						CreateCustomer createCustomer = new CreateCustomer();
+						createCustomer.setVisible(true);
+						frmVinylS.dispose();
+						
+						
+					}
+				});
+				btnNewButton.setBounds(208, 356, 210, 37);
+				frmVinylS.getContentPane().add(btnNewButton);
 				
 				btnSubmit.addActionListener(new ActionListener() {
 					
@@ -156,18 +175,20 @@ public class LoginWindow {
 							if(name.equals("ADMIN") && pass.equals("ADMIN")) { 
 							
 								JOptionPane.showMessageDialog(frmVinylS,"You are signed in as admin ");
-								frmVinylS.setVisible(false);
+								
 								AdminPage Admin = new AdminPage();
 								Admin.setVisible(true);
+								frmVinylS.dispose();
 						
 							} 
 							
 							else if(ExistsEmployee(name , pass)) {
 						
 								JOptionPane.showMessageDialog(frmVinylS,"hello "+name+"! You are signed in as admin ");
-								frmVinylS.setVisible(false);
+								
 								AdminPage Admin = new AdminPage(employee.getID());
 						    	Admin.setVisible(true);
+						    	frmVinylS.dispose();
 
 							}
 							
@@ -177,6 +198,7 @@ public class LoginWindow {
 								CustomerGUI customerWindow = new CustomerGUI(customer.getID()); 
 								customerWindow.getWindow().setVisible(true);
 								frmVinylS.dispose();
+							
 								
 								
 							}

@@ -14,7 +14,12 @@ public class Order implements Comparable<Order>, Serializable {
 	
 	// Attributes
 	
-	static int num = 0;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7767864006248193881L;
+	
+	transient static int num = 0;
 	private int orderID;
 	private Employee employee = null;
 	private Customer customer;
@@ -29,12 +34,14 @@ public class Order implements Comparable<Order>, Serializable {
 	
 	public Order(Customer customer, LocalDate orderDate)  throws IllegalVinylPrice, IlegalDate {
 		
+		
 		this.orderID = ++num;
 		products = new ArrayList<>(); 
 		setCustomer(customer);
 		setProducts(products);
 		setOrderDate(orderDate);
 		setShipAddress();
+		
 	}
 	
 	
@@ -182,6 +189,11 @@ public class Order implements Comparable<Order>, Serializable {
 		
 		return count;
 		
+	}
+	
+	public void setID(int ID) {
+		
+		this.orderID = ++ID; 
 	}
 	
 }

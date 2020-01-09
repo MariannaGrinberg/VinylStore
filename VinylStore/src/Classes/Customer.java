@@ -10,6 +10,10 @@ import Exceptions.InvalidUserName;
 
 public class Customer extends User implements Comparable<Customer>, Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2178719367713954180L;
 	private ArrayList<Vinyl> cart;
 
 	public Customer(String ID, String username, String password, String firstName, String lastName, 
@@ -45,7 +49,7 @@ public class Customer extends User implements Comparable<Customer>, Serializable
 	@Override
 	public String toString() {
 		
-		return this.getClass().getSimpleName() + super.toString() + "]";
+		return  super.toString();
 	
 	}
 

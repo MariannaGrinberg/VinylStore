@@ -52,6 +52,7 @@ public class MyCartGUI {
 	/**
 	 * Launch the application.
 	 */
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -80,13 +81,14 @@ public class MyCartGUI {
 
 
 		// Read objects
-		this.store = (Store) obj.readObject();
+		store = (Store) obj.readObject();
 		
 		obj.close();
 		file.close();
 		
-		this.customer = this.store.getCustomerByID(customerID);
+		this.customer = store.getCustomerByID(customerID);
 		updateTotalPrice();
+		
 		
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -95,14 +97,17 @@ public class MyCartGUI {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		
 		initialize();
+		
+	
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		
+
 		myCartWindow = new JFrame();
 		myCartWindow.setTitle("Vinyl Store - MyCart - " + this.customer.getUsername());
 		myCartWindow.setBounds(100, 100, 1110, 617);
@@ -115,10 +120,12 @@ public class MyCartGUI {
 		
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(40, 120, 737, 359);
+		scrollPane.setBounds(40, 120, 756, 359);
 		myCartWindow.getContentPane().add(scrollPane);
 		
 		this.table = new JTable();
+		table.setDefaultEditor(Object.class, null);
+		table.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		this.table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -172,17 +179,13 @@ public class MyCartGUI {
 		myCartWindow.getContentPane().add(menuItem);
 		
 		JLabel lblYourCart = new JLabel("My Cart:");
-		lblYourCart.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblYourCart.setBounds(40, 96, 187, 20);
+		lblYourCart.setFont(new Font("Tahoma", Font.BOLD, 22));
+		lblYourCart.setBounds(40, 90, 187, 26);
 		myCartWindow.getContentPane().add(lblYourCart);
 		
-		descriptionField = new JTextArea();
-		descriptionField.setBounds(823, 120, 237, 296);
-		myCartWindow.getContentPane().add(descriptionField);
-		
 		JLabel lblDescriptiom = new JLabel("Description:");
-		lblDescriptiom.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblDescriptiom.setBounds(823, 96, 187, 20);
+		lblDescriptiom.setFont(new Font("Tahoma", Font.BOLD, 22));
+		lblDescriptiom.setBounds(823, 90, 187, 26);
 		myCartWindow.getContentPane().add(lblDescriptiom);
 		
 		JButton btnRemoveFromCart = new JButton("Remove from Cart");
@@ -257,7 +260,12 @@ public class MyCartGUI {
 				else {
 					try {
 			
+						
 						Order order = new Order(customer, LocalDate.now());
+						ArrayList<Order> orders = store.getOrders();
+						
+						order.setID(store.getLastOrderID());
+						
 						for(Vinyl product : customer.getCart()) {
 							order.addProducts(product);
 						}
@@ -269,7 +277,7 @@ public class MyCartGUI {
 						
 						// Update Store File
 						FileOutputStream file;
-						file = new FileOutputStream(new File("store.txt"));
+						file = new FileOutputStream(new File("store.ser"));
 						
 						ObjectOutputStream obj = new ObjectOutputStream(file);
 						
@@ -312,16 +320,26 @@ public class MyCartGUI {
 		myCartWindow.getContentPane().add(btnPlaceNewOrder);
 		
 		this.totalPriceField = new JTextArea();
+		totalPriceField.setEditable(false);
 		this.totalPriceField.setFont(new Font("Arial", Font.PLAIN, 16));
 		this.totalPriceField.setText(this.totalPrice + "$");
 		
-		this.totalPriceField.setBounds(823, 448, 237, 31);
+		this.totalPriceField.setBounds(811, 448, 249, 31);
 		myCartWindow.getContentPane().add(this.totalPriceField);
 		
 		JLabel lblTotalPrice = new JLabel("Total Price:");
 		lblTotalPrice.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblTotalPrice.setBounds(823, 424, 187, 20);
 		myCartWindow.getContentPane().add(lblTotalPrice);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(811, 120, 249, 296);
+		myCartWindow.getContentPane().add(scrollPane_1);
+		
+		descriptionField = new JTextArea();
+		descriptionField.setEditable(false);
+		scrollPane_1.setViewportView(descriptionField);
+		descriptionField.setFont(new Font("Tahoma", Font.PLAIN, 17));
 	}
 	
 	public JFrame getWindow() {
@@ -335,4 +353,7 @@ public class MyCartGUI {
 			this.totalPrice += product.getPrice();
 		}
 	}
+
+	
+	
 }

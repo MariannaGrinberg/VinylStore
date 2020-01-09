@@ -9,10 +9,14 @@ import Exceptions.IllegalVinylPrice;
 import enums.Condition;
 import enums.Format;
 
-public class Vinyl implements Comparable<Vinyl>, Serializable  {
+public class Vinyl implements Comparable<Vinyl>, Serializable {
 
-	private static final long serialVersionUID = 3464064106850621402L;
 
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	static int num = 0; 
 	private int vinylID;
 	private String name;
@@ -23,22 +27,26 @@ public class Vinyl implements Comparable<Vinyl>, Serializable  {
 	private float price;
 	private ArrayList<Song> songs; 
 	private float discount;
+	private String artist = "";
 
 
-	public Vinyl(String name, String description, String releaseYear, Format format, 
-				 Condition condition, float price, float discount) throws IllegalVinylPrice{
+	public Vinyl(String name, String releaseYear, Format format, 
+				 Condition condition,int discount,float price) throws IllegalVinylPrice{
 		
 		songs = new ArrayList<>();
 		vinylID = ++num; 
 		setName(name);
-		setDescription(description);
+		setDescription();
 		setReleaseDate(releaseYear);
 		setFormat(format);
 		setCondition(condition);
 		setDiscount(discount);
 		setPrice(price); 
+
+
 	}
 	
+
 	//Getters
 
 	public int getVinylID() {
@@ -61,6 +69,9 @@ public class Vinyl implements Comparable<Vinyl>, Serializable  {
 		return name;
 	}
 
+	public String getArtist() {
+		return artist;
+	}
 
 	public Condition getCondition() {
 		return condition;
@@ -76,12 +87,56 @@ public class Vinyl implements Comparable<Vinyl>, Serializable  {
 
 	//Setters
 
+	public void setArtist() {
+		ArrayList<Song> songsArr = this.songs;
+		String artist = songsArr.get(1).getArtist();
+		
+		boolean check = true;
+		
+		String[] artists = new String[this.songs.size()];
+		for(Song song : this.songs) {
+			if(!artist.contentEquals(song.getArtist())) {
+				check = false;
+				break;
+			}
+		}
+
+		if(check) {
+			this.artist = artist;
+		}
+		else {
+			this.artist = "";
+		}
+		
+	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
 	
-	public void setDescription(String description) {
+	public void setDescription() {
+
+		String description = "#" + this.vinylID + " - " + this.name; 
+
+		if(!this.artist.equals("")) {
+			description += " - " + this.artist + ":\n";
+		}
+		else {
+			description += ":\n";
+		}
+		
+		
+		int count = 1;
+		for(Song song : this.songs) {
+			description = description + "\n" + count++ + ". " + song.getName();
+		}
+		
 		this.description = description;
+		
+	}
+	
+	public void setVinylID(int ID) {
+		this.vinylID = ++ID;
 	}
 
 	public void setReleaseDate(String releaseYear) {
@@ -97,16 +152,15 @@ public class Vinyl implements Comparable<Vinyl>, Serializable  {
 	}
 
 	public void setPrice(float price2) throws IllegalVinylPrice{
-		if (price2 >= 0.0) {
+		
+		if (price2 >= 0.0f) {
 			
-			if (this.getDiscount() == 0.0)
+			if (this.getDiscount() == 0.0f)
 				this.price = price2;
 				
-			else if (this.getDiscount() > 0.0) 
-				this.price = this.price - (this.price * this.getDiscount());
+			else if (this.getDiscount() > 0.0f) 
+				this.price = price2 - (price2 * this.getDiscount());
 				
-			else throw new IllegalVinylPrice("Illega Discount");
-			
 		}
 		
 		else {
@@ -115,6 +169,7 @@ public class Vinyl implements Comparable<Vinyl>, Serializable  {
 	}
 	
 	public void addSong(Song song) {
+		
 		this.songs.add(song);
 		
 	}
@@ -131,30 +186,21 @@ public class Vinyl implements Comparable<Vinyl>, Serializable  {
 		
 	}
 	
-	public void setDiscount(float discount) {
-		if (discount <= 0.0)
-			this.discount = 0;
-		else this.discount = discount; 
+	public void setDiscount(int discount) throws IllegalVinylPrice {
+		if (discount < 0 && discount > 100 ) {
+		
+			this.discount = 0.0f;
+		    throw new IllegalVinylPrice("Illega Discount.. The Discount Set To : 0");
+		  }
+		
+		else this.discount = (float)discount/100;
 			
 	}
+	
 
 	@Override
 	public String toString() {
-		
-		String songs = "";
-		String artists = "";
-		
-		Collections.sort(this.songs);
-		
-		for(int i = 0; i < this.songs.size(); i++) 
-			songs += " ["+this.songs.get(i)+"] ";
-		
-		for(int i = 0; i < this.songs.size(); i++) 
-			artists += " ["+this.songs.get(i).getArtist()+"] ";
-
-		
-		return "vinylID:" + vinylID + ", name:" + name +", artist:" + artists + ", description:" + description + ", releaseDate:" + releaseYear
-				+ ", format:" + format + ", condition:" + condition + ", price:" + price + "$, songs:" + songs ;
+		return this.description;
 	}
 
 	@Override

@@ -12,6 +12,7 @@ import java.awt.Font;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 import javax.swing.JTextPane;
+import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -42,7 +43,7 @@ public class ViewEmployees  extends JFrame{
 		getContentPane().setFont(new Font("Segoe UI Semibold", Font.PLAIN, 16));
 		setTitle("View Employees");
 		getContentPane().setLayout(null);
-		setSize(679,565); 
+		setSize(1151,565); 
 		
 		JButton btnBack = new JButton("Back");
 		btnBack.setBackground(new Color(211, 211, 211));
@@ -59,11 +60,11 @@ public class ViewEmployees  extends JFrame{
 		});
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(15, 93, 627, 400);
+		scrollPane.setBounds(15, 93, 1099, 400);
 		getContentPane().add(scrollPane);
 	
 		 table = new JTable();
-        
+		 table.setDefaultEditor(Object.class, null);
 		//headers for the table
         String[] columns = new String[] {
             "ID", "Fist name", "Last Name", "Phone Numbe", "Email", "Start Working Date" 
@@ -73,6 +74,9 @@ public class ViewEmployees  extends JFrame{
         model = new DefaultTableModel();
         model.setColumnIdentifiers(columns);
         table.setModel(model);
+        table.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        table.setRowHeight(22);
+        
         
   
 		for(Employee employee : store.getEmployees()) {
@@ -96,9 +100,9 @@ public class ViewEmployees  extends JFrame{
 		JTextPane txtpnEmployeesWhoWork = new JTextPane();
 		txtpnEmployeesWhoWork.setForeground(new Color(95, 158, 160));
 		txtpnEmployeesWhoWork.setBackground(new Color(245, 245, 245));
-		txtpnEmployeesWhoWork.setFont(new Font("Segoe UI", Font.BOLD, 18));
+		txtpnEmployeesWhoWork.setFont(new Font("Segoe UI", Font.BOLD, 23));
 		txtpnEmployeesWhoWork.setText("Employees Who Work In A Vinyl Store");
-		txtpnEmployeesWhoWork.setBounds(145, 51, 331, 26);
+		txtpnEmployeesWhoWork.setBounds(341, 40, 415, 37);
 		getContentPane().add(txtpnEmployeesWhoWork);
 	
 	}

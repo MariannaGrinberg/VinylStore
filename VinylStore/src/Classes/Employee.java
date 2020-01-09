@@ -19,10 +19,8 @@ public class Employee extends User implements Comparable<Employee>, Serializable
 	}
 	
 	@Override
-	public String toString() {
-		
-		return this.getClass().getSimpleName() + super.toString() + "startWorkingDate=" + startWorkingDate + "]";
-	
+	public String toString() {	
+		return this.getClass().getSimpleName() + ":" + super.toString();	
 	}
 
 	public LocalDate getStartWorkingDate() {

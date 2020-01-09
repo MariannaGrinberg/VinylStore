@@ -23,6 +23,7 @@ import java.io.ObjectInputStream;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Color;
 
 public class CustomerGUI {
 
@@ -85,8 +86,9 @@ public class CustomerGUI {
 	 */
 	private void initialize() {
 		customerWindow = new JFrame();
+		customerWindow.getContentPane().setBackground(new Color(245, 245, 245));
 		customerWindow.setTitle("Vinyl Store");
-		customerWindow.setBounds(100, 100, 451, 518);
+		customerWindow.setBounds(100, 100, 488, 542);
 		customerWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		customerWindow.getContentPane().setLayout(null);
 		
@@ -96,6 +98,8 @@ public class CustomerGUI {
 		
 		
 		JButton btnShowProducts = new JButton("Show Products");
+		btnShowProducts.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		btnShowProducts.setBackground(new Color(176, 224, 230));
 		btnShowProducts.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ProductsGUI productsWindow = new ProductsGUI(customer.getID());
@@ -104,10 +108,12 @@ public class CustomerGUI {
 				customerWindow.dispose();
 			}
 		});
-		btnShowProducts.setBounds(120, 89, 172, 81);
+		btnShowProducts.setBounds(128, 104, 208, 81);
 		customerWindow.getContentPane().add(btnShowProducts);
 		
 		JButton btnMyCart = new JButton("My Cart");
+		btnMyCart.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		btnMyCart.setBackground(new Color(176, 224, 230));
 		btnMyCart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(customer.getCart().isEmpty()) {
@@ -121,10 +127,12 @@ public class CustomerGUI {
 				}
 			}
 		});
-		btnMyCart.setBounds(120, 186, 172, 81);
+		btnMyCart.setBounds(128, 201, 208, 81);
 		customerWindow.getContentPane().add(btnMyCart);
 		
 		JButton btbMyOrders = new JButton("My Orders");
+		btbMyOrders.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		btbMyOrders.setBackground(new Color(176, 224, 230));
 		btbMyOrders.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(store.getOrdersByCustomerID(customer.getID()).isEmpty()) {
@@ -138,11 +146,11 @@ public class CustomerGUI {
 				}
 			}
 		});
-		btbMyOrders.setBounds(120, 283, 172, 81);
+		btbMyOrders.setBounds(128, 298, 208, 81);
 		customerWindow.getContentPane().add(btbMyOrders);
 		
 		JMenuItem mntmLogout = new JMenuItem("Logout");
-		mntmLogout.setBounds(322, 431, 142, 31);
+		mntmLogout.setBounds(324, 455, 142, 31);
 		
 		mntmLogout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -159,7 +167,7 @@ public class CustomerGUI {
 		
 		JLabel lblWelcome = new JLabel("Welcome " + this.customer.getUsername());
 		lblWelcome.setFont(new Font("Arial", Font.PLAIN, 17));
-		lblWelcome.setBounds(15, 16, 277, 20);
+		lblWelcome.setBounds(0, 0, 277, 20);
 		customerWindow.getContentPane().add(lblWelcome);
 	}
 	

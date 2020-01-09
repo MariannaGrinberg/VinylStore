@@ -9,11 +9,14 @@ import java.awt.GridLayout;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.swing.JTextField;
@@ -26,6 +29,7 @@ import Classes.Vinyl;
 import Exceptions.IllegalVinylPrice;
 
 import javax.swing.JComboBox;
+import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 
@@ -34,6 +38,10 @@ import enums.Genre;
 import enums.City;
 import enums.Condition;
 import java.awt.Color;
+import javax.swing.JTextArea;
+import javax.swing.border.Border;
+import javax.swing.border.MatteBorder;
+import javax.swing.UIManager;
 
 public class AddVinyl extends JFrame{
 	
@@ -47,20 +55,21 @@ public class AddVinyl extends JFrame{
 	 
 	public AddVinyl() {
 		
+	
 		ImageIcon img = new ImageIcon("VinylStoreIcon.png");
 		this.setIconImage(img.getImage());
 		
-		getContentPane().setBackground(new Color(248, 248, 255));
+		getContentPane().setBackground(new Color(240, 248, 255));
 		setTitle("Add Vinyl");
 		getContentPane().setLayout(null);
-		setSize(523,594);
+		setSize(685,743);
 		
 		JTextPane txtpnAddNewVinyl = new JTextPane();
-		txtpnAddNewVinyl.setForeground(new Color(204, 51, 153));
-		txtpnAddNewVinyl.setBackground(new Color(248, 248, 255));
-		txtpnAddNewVinyl.setFont(new Font("Segoe UI", Font.BOLD, 19));
+		txtpnAddNewVinyl.setForeground(new Color(0, 0, 0));
+		txtpnAddNewVinyl.setBackground(new Color(240, 248, 255));
+		txtpnAddNewVinyl.setFont(new Font("Segoe UI", Font.BOLD, 30));
 		txtpnAddNewVinyl.setText("Add New Vinyl to Store");
-		txtpnAddNewVinyl.setBounds(125, 41, 240, 26);
+		txtpnAddNewVinyl.setBounds(152, 53, 359, 44);
 		getContentPane().add(txtpnAddNewVinyl);
 		
 		JButton btnBack = new JButton("Back");
@@ -80,124 +89,272 @@ public class AddVinyl extends JFrame{
 		JButton btnAddSong = new JButton("Add Song");
 		btnAddSong.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnAddSong.setForeground(Color.WHITE);
-		btnAddSong.setBackground(new Color(204, 51, 153));
-		btnAddSong.setBounds(177, 96, 115, 29);
+		btnAddSong.setBackground(new Color(0, 51, 102));
+		btnAddSong.setBounds(227, 125, 137, 44);
 		getContentPane().add(btnAddSong);
 		btnAddSong.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 			Song song = addNewSong(); 
 			songs.add(song);
-				
+			JOptionPane.showMessageDialog(getContentPane(),"Song Added Successfuly!");
+			
 			}
 		});
 		
 		
 		JLabel lblVinylName = new JLabel("Vinyl Name: ");
-		lblVinylName.setBounds(62, 149, 94, 20);
+		lblVinylName.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 22));
+		lblVinylName.setBounds(67, 214, 130, 29);
 		getContentPane().add(lblVinylName);
-		
-		TextField nameFiled = new TextField();
-		nameFiled.setBackground(new Color(245, 245, 245));
-		nameFiled.setForeground(new Color(0, 0, 0));
-		lblVinylName.setLabelFor(nameFiled);
-		nameFiled.setBounds(156, 149, 121, 24);
-		getContentPane().add(nameFiled);
-		
-		JLabel lblDescription = new JLabel("Description: ");
-		lblDescription.setBounds(62, 185, 94, 20);
-		getContentPane().add(lblDescription);
-		
-		TextField descriptionFiled = new TextField();
-		descriptionFiled.setBackground(new Color(245, 245, 245));
-		descriptionFiled.setForeground(new Color(0, 0, 0));
-		lblDescription.setLabelFor(descriptionFiled);
-		descriptionFiled.setBounds(157, 185, 300, 71);
-		getContentPane().add(descriptionFiled);
 		
 		JComboBox comboBoxFormat = new JComboBox();
 		comboBoxFormat.setBackground(new Color(245, 245, 245));
 		comboBoxFormat.setModel(new DefaultComboBoxModel(Format.values()));
-		comboBoxFormat.setBounds(156, 288, 71, 26);
+		comboBoxFormat.setBounds(163, 304, 86, 30);
 		getContentPane().add(comboBoxFormat);
 		
 		JLabel lblFormat = new JLabel("Format:");
+		lblFormat.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 22));
 		lblFormat.setLabelFor(comboBoxFormat);
-		lblFormat.setBounds(60, 291, 69, 20);
+		lblFormat.setBounds(67, 303, 81, 27);
 		getContentPane().add(lblFormat);
 		
 		JComboBox comboBoxCondition = new JComboBox();
 		comboBoxCondition.setBackground(new Color(245, 245, 245));
 		comboBoxCondition.setModel(new DefaultComboBoxModel(Condition.values()));
-		comboBoxCondition.setBounds(156, 326, 71, 26);
+		comboBoxCondition.setBounds(444, 304, 98, 30);
 		getContentPane().add(comboBoxCondition);
 		
 		JLabel lblCondition = new JLabel("Condition:");
+		lblCondition.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 22));
 		lblCondition.setLabelFor(comboBoxCondition);
-		lblCondition.setBounds(58, 329, 83, 20);
+		lblCondition.setBounds(318, 302, 111, 28);
 		getContentPane().add(lblCondition);
 		
 		JLabel lblReleaseYear = new JLabel("Release Year:");
-		lblReleaseYear.setBounds(62, 376, 103, 20);
+		lblReleaseYear.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 22));
+		lblReleaseYear.setBounds(67, 384, 137, 31);
 		getContentPane().add(lblReleaseYear);
 		
-		TextField yearFiled = new TextField();
-		yearFiled.setBackground(new Color(245, 245, 245));
-		yearFiled.setForeground(new Color(0, 0, 0));
-		lblReleaseYear.setLabelFor(yearFiled);
-		yearFiled.setBounds(177, 376, 100, 24);
-		getContentPane().add(yearFiled);
-		
 		JLabel lblPrice = new JLabel("Price:");
-		lblPrice.setBounds(62, 419, 57, 20);
+		lblPrice.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 22));
+		lblPrice.setBounds(67, 469, 57, 20);
 		getContentPane().add(lblPrice);
 		
-		TextField priceFiled = new TextField();
-		priceFiled.setBackground(new Color(245, 245, 245));
-		priceFiled.setForeground(new Color(0, 0, 0));
-		lblPrice.setLabelFor(priceFiled);
-		priceFiled.setBounds(125, 419, 100, 24);
-		getContentPane().add(priceFiled);
-		
-		JLabel lblDiscount = new JLabel("discount:");
-		lblDiscount.setBounds(245, 419, 69, 20);
+		JLabel lblDiscount = new JLabel("discount(%):");
+		lblDiscount.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 22));
+		lblDiscount.setBounds(281, 469, 128, 30);
 		getContentPane().add(lblDiscount);
-		
-		TextField discountFiled = new TextField();
-		discountFiled.setBackground(new Color(245, 245, 245));
-		discountFiled.setForeground(new Color(0, 0, 0));
-		lblDiscount.setLabelFor(discountFiled);
-		discountFiled.setBounds(320, 419, 94, 24);
-		getContentPane().add(discountFiled);
 	
+		
+		JTextArea nameFiled = new JTextArea();
+		nameFiled.setFont(new Font("Courier New", Font.PLAIN, 20));
+		nameFiled.setBorder(new MatteBorder(2, 2, 0, 1, (Color) UIManager.getColor("TextField.darkShadow")));
+		nameFiled.setBackground(new Color(245, 245, 245));
+		nameFiled.setBounds(212, 218, 330, 30);
+		getContentPane().add(nameFiled);
+		nameFiled.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+
+				if(ValidateVinylName(nameFiled.getText()) == true){
+				
+					Border border = BorderFactory.createLineBorder(Color.GREEN, 2);
+					nameFiled.setBorder(border);
+				}
+			
+				else if(ValidateVinylName(nameFiled.getText()) == false) {
+				
+					Border border = BorderFactory.createLineBorder(Color.RED, 2);
+					nameFiled.setBorder(border);
+				}
+						
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(ValidateVinylName(nameFiled.getText()) == true){
+				    Border border = BorderFactory.createLineBorder(Color.GREEN, 2);
+				    nameFiled.setBorder(border);
+				}
+			
+				else if(ValidateVinylName(nameFiled.getText()) == false) {
+					Border border = BorderFactory.createLineBorder(Color.RED, 2);
+					nameFiled.setBorder(border);
+				}
+				
+			}
+	
+		});
+		
+		JTextArea priceFiled = new JTextArea();
+		priceFiled.setFont(new Font("Courier New", Font.PLAIN, 20));
+		priceFiled.setBorder(new MatteBorder(2, 2, 0, 1, (Color) UIManager.getColor("TextField.darkShadow")));
+		priceFiled.setBackground(new Color(245, 245, 245));
+		priceFiled.setBounds(139, 469, 130, 30);
+		getContentPane().add(priceFiled);
+		priceFiled.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+
+				if(ValidatePrice(priceFiled.getText()) == true){
+				
+					Border border = BorderFactory.createLineBorder(Color.GREEN, 2);
+					priceFiled.setBorder(border);
+				}
+			
+				else if(ValidatePrice(priceFiled.getText()) == false) {
+				
+					Border border = BorderFactory.createLineBorder(Color.RED, 2);
+					priceFiled.setBorder(border);
+				}
+						
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(ValidatePrice(priceFiled.getText()) == true){
+				    Border border = BorderFactory.createLineBorder(Color.GREEN, 2);
+				    priceFiled.setBorder(border);
+				}
+			
+				else if(ValidatePrice(priceFiled.getText()) == false) {
+					Border border = BorderFactory.createLineBorder(Color.RED, 2);
+					priceFiled.setBorder(border);
+				}
+				
+			}
+	
+		});
+		
+		
+		JTextArea discountFiled = new JTextArea();
+		discountFiled.setFont(new Font("Courier New", Font.PLAIN, 20));
+		discountFiled.setBorder(new MatteBorder(2, 2, 0, 1, (Color) UIManager.getColor("TextField.darkShadow")));
+		discountFiled.setBackground(new Color(245, 245, 245));
+		discountFiled.setBounds(412, 469, 130, 30);
+		getContentPane().add(discountFiled);
+		discountFiled.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+
+				if(ValidateDiscount(discountFiled.getText()) == true){
+				
+					Border border = BorderFactory.createLineBorder(Color.GREEN, 2);
+					discountFiled.setBorder(border);
+				}
+			
+				else if(ValidateDiscount(discountFiled.getText()) == false) {
+				
+					Border border = BorderFactory.createLineBorder(Color.RED, 2);
+					discountFiled.setBorder(border);
+				}
+						
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(ValidateDiscount(discountFiled.getText()) == true){
+				    Border border = BorderFactory.createLineBorder(Color.GREEN, 2);
+				    discountFiled.setBorder(border);
+				}
+			
+				else if(ValidateDiscount(discountFiled.getText()) == false) {
+					Border border = BorderFactory.createLineBorder(Color.RED, 2);
+					discountFiled.setBorder(border);
+				}
+				
+			}
+	
+		});
+		
+		JTextArea yearFiled = new JTextArea();
+		yearFiled.setFont(new Font("Courier New", Font.PLAIN, 20));
+		yearFiled.setBorder(new MatteBorder(2, 2, 0, 1, (Color) UIManager.getColor("TextField.darkShadow")));
+		yearFiled.setBackground(new Color(245, 245, 245));
+		yearFiled.setBounds(212, 385, 130, 30);
+		getContentPane().add(yearFiled);
+		yearFiled.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+
+				if(ValidateReleaseYear(yearFiled.getText()) == true){
+				
+					Border border = BorderFactory.createLineBorder(Color.GREEN, 2);
+					yearFiled.setBorder(border);
+				}
+			
+				else if(ValidateReleaseYear(yearFiled.getText()) == false) {
+				
+					Border border = BorderFactory.createLineBorder(Color.RED, 2);
+					yearFiled.setBorder(border);
+				}
+						
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(ValidateReleaseYear(yearFiled.getText()) == true){
+				    Border border = BorderFactory.createLineBorder(Color.GREEN, 2);
+				    yearFiled.setBorder(border);
+				}
+			
+				else if(ValidateReleaseYear(yearFiled.getText()) == false) {
+					Border border = BorderFactory.createLineBorder(Color.RED, 2);
+					yearFiled.setBorder(border);
+				}
+				
+			}
+	
+		});
 		
 		JButton submit2 = new JButton("Submit");
 		submit2.setFont(new Font("Tahoma", Font.BOLD, 16));
 		submit2.setForeground(new Color(255, 255, 255));
-		submit2.setBackground(new Color(51, 51, 102));
-		submit2.setBounds(177, 493, 115, 29);
+		submit2.setBackground(new Color(102, 205, 170));
+		submit2.setBounds(241, 590, 137, 44);
 		getContentPane().add(submit2);
 		submit2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent f) {
 				
 				
 				try {
-					
-					Vinyl newVinyl	= new Vinyl(nameFiled.getText(), descriptionFiled.getText(), yearFiled.getText(), 
-							(Format) comboBoxFormat.getSelectedItem(), (Condition) comboBoxCondition.getSelectedItem(), 
-							Float.valueOf(priceFiled.getText()),Float.valueOf(discountFiled.getText()));
-			
-					
-					for(Song song: songs) 
-						newVinyl.addSong(song);
+					if (ValidateVinylName(nameFiled.getText())== true && 
+							ValidateReleaseYear(yearFiled.getText()) == true &&
+							ValidatePrice(priceFiled.getText()) == true && 
+							ValidateDiscount(discountFiled.getText()) == true) { 
 						
-					deserialize("store.ser"); 
-					store.addProduct(newVinyl);
-					serialize("store.ser"); 
+							Vinyl newVinyl	= new Vinyl(nameFiled.getText(), yearFiled.getText(), 
+									(Format) comboBoxFormat.getSelectedItem(), (Condition) comboBoxCondition.getSelectedItem(), 
+									Integer.valueOf(discountFiled.getText()), Float.valueOf(priceFiled.getText()));
+					
+					
+							for(Song song: songs) 
+								newVinyl.addSong(song);
+						
+							deserialize("store.ser"); 
+							store.addProduct(newVinyl);
+							serialize("store.ser"); 
+					
+							JOptionPane.showMessageDialog(getContentPane(),"Vinyl Seaved Successfuly!");
+							AdminPage AP = new AdminPage();
+							AP.getFrame().setVisible(true);
+							dispose();
+					
+					}
+					
+					else JOptionPane.showMessageDialog(getContentPane(),"One Or More Of The Details You Entered Are Incorrect, Please Try Again!");
+
 				
 				} catch (NumberFormatException | IllegalVinylPrice f2) {
 					// TODO Auto-generated catch block
-					System.out.println(f2.getMessage());
+					JOptionPane.showMessageDialog(getContentPane(),f2.getMessage());
+
 				}
 				
 				
@@ -292,4 +449,67 @@ public class AddVinyl extends JFrame{
 			}
 
 		}
+		
+		public boolean ValidateVinylName(String name) {
+			
+			return name.length() > 2; 
+			
+		}
+		
+		public boolean ValidateReleaseYear(String ReleaseYear) {
+			
+			 if(ReleaseYear.matches("[0-9]*")) {
+				 try {
+					 return Integer.valueOf(ReleaseYear) <= LocalDate.now().getYear()
+							 && Integer.valueOf(ReleaseYear)> 0; 
+						
+					}
+			 		
+			 	catch(NumberFormatException|NullPointerException e) {
+			 			return false;
+			 	}
+ 
+		
+			}
+			return false;
+		}
+		
+		public boolean ValidatePrice(String price) {
+			
+			 if(price.matches("[0-9]*")) {
+				
+				 try {
+					 return Double.valueOf(price) > 0; 
+						
+					}
+			 		
+			 	catch(NumberFormatException|NullPointerException e) {
+			 			return false;
+			 	}
+
+		
+			}
+			return false;
+		}
+		
+		public boolean ValidateDiscount(String discount) {
+			
+			 if(discount.matches("[0-9]*")) {
+				
+				 try {
+					 return Integer.valueOf(discount) > 0 && Integer.valueOf(discount) < 100; 
+						
+					}
+			 		
+			 	catch(NumberFormatException|NullPointerException e) {
+			 			return false;
+			 	}
+
+		
+			}
+			return false;
+		}
+	
+		
+		
 }

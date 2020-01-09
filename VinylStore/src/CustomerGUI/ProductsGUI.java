@@ -23,6 +23,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -110,6 +112,10 @@ public class ProductsGUI {
 		productsWindow.getContentPane().add(scrollPane);
 		
 		this.table = new JTable();
+		table.setDefaultEditor(Object.class, null);
+        table.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        table.setAlignmentX(SwingConstants.CENTER);
+        table.setRowHeight(22);
 		this.table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -150,6 +156,7 @@ public class ProductsGUI {
 		scrollPane.setViewportView(table);
 		
 		JMenuItem menuItem = new JMenuItem("< Back to Main Window");
+		menuItem.setFont(new Font("Segoe UI", Font.PLAIN, 19));
 		menuItem.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -159,21 +166,17 @@ public class ProductsGUI {
 				productsWindow.dispose();
 			}
 		});
-		menuItem.setBounds(0, 0, 243, 31);
+		menuItem.setBounds(0, 0, 255, 44);
 		productsWindow.getContentPane().add(menuItem);
 		
 		JLabel lblProductsInStore = new JLabel("Products in Store:");
-		lblProductsInStore.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblProductsInStore.setBounds(40, 96, 187, 20);
+		lblProductsInStore.setFont(new Font("Tahoma", Font.BOLD, 22));
+		lblProductsInStore.setBounds(40, 82, 980, 34);
 		productsWindow.getContentPane().add(lblProductsInStore);
 		
-		descriptionField = new JTextArea();
-		descriptionField.setBounds(823, 120, 237, 359);
-		productsWindow.getContentPane().add(descriptionField);
-		
 		JLabel lblDescriptiom = new JLabel("Description:");
-		lblDescriptiom.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblDescriptiom.setBounds(823, 96, 187, 20);
+		lblDescriptiom.setFont(new Font("Tahoma", Font.BOLD, 22));
+		lblDescriptiom.setBounds(792, 82, 228, 34);
 		productsWindow.getContentPane().add(lblDescriptiom);
 		
 		JButton btnAddToCart = new JButton("Add to Cart");
@@ -227,6 +230,14 @@ public class ProductsGUI {
 		});
 		btnMyCart.setBounds(40, 501, 139, 44);
 		productsWindow.getContentPane().add(btnMyCart);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(790, 120, 270, 359);
+		productsWindow.getContentPane().add(scrollPane_1);
+		
+		descriptionField = new JTextArea();
+		scrollPane_1.setViewportView(descriptionField);
+		descriptionField.setFont(new Font("Tahoma", Font.PLAIN, 19));
 	}
 	
 	public JFrame getWindow() {

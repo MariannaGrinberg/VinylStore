@@ -13,25 +13,29 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.time.LocalDate;
-import java.util.ArrayList;
-
 import javax.swing.JComboBox;
 import java.awt.Font;
 import javax.swing.JTextPane;
+import javax.swing.border.Border;
 
 import Classes.Address;
 import Classes.Employee;
 import Classes.Store;
-import Classes.User;
 import Exceptions.IlegalPassword;
 import Exceptions.InvalidUserName;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 
 import enums.City;
 import javax.swing.JButton;
 import java.awt.Color;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.JTextArea;
+import javax.swing.UIManager;
+import javax.swing.border.MatteBorder;
 
 public class AddNewEmployee extends JFrame{
 	
@@ -39,121 +43,103 @@ public class AddNewEmployee extends JFrame{
 	
 	
 	public AddNewEmployee() {
-		getContentPane().setBackground(new Color(248, 248, 255));
-		setTitle("ADD Employee");
+		deserialize("store.ser"); 
+		getContentPane().setBackground(new Color(240, 248, 255));
+		setTitle("Add Employee");
 		getContentPane().setLayout(null);
-		setSize(531, 626);
+		setSize(786, 933);
 		
 		// set Icon
 		ImageIcon img = new ImageIcon("VinylStoreIcon.png");
 		this.setIconImage(img.getImage());
 		
 		JLabel lblFisrtName = new JLabel("First Name:");
-		lblFisrtName.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblFisrtName.setBounds(35, 133, 88, 20);
+		lblFisrtName.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 22));
+		lblFisrtName.setBounds(76, 338, 119, 20);
 		getContentPane().add(lblFisrtName);
 		
 		JLabel lblLastName = new JLabel("Last Name:");
-		lblLastName.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblLastName.setBounds(241, 133, 88, 20);
+		lblLastName.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 22));
+		lblLastName.setBounds(408, 338, 109, 20);
 		getContentPane().add(lblLastName);
 		
-		TextField firstNameField = new TextField();
-		firstNameField.setBackground(new Color(245, 245, 245));
-		lblFisrtName.setLabelFor(firstNameField);
-		firstNameField.setBounds(129, 129, 90, 24);
-		getContentPane().add(firstNameField);
-		
-		TextField lastNameField = new TextField();
-		lastNameField.setBackground(new Color(245, 245, 245));
-		lblLastName.setLabelFor(lastNameField);
-		lastNameField.setBounds(331, 133, 90, 24);
-		getContentPane().add(lastNameField);
-		
 		JLabel lblEmployeeId = new JLabel("Employee ID:");
-		lblEmployeeId.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblEmployeeId.setBounds(34, 85, 110, 20);
+		lblEmployeeId.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 22));
+		lblEmployeeId.setBounds(76, 196, 134, 20);
 		getContentPane().add(lblEmployeeId);
 		
-		TextField idField = new TextField();
-		idField.setBackground(new Color(245, 245, 245));
-		lblEmployeeId.setLabelFor(idField);
-		idField.setBounds(151, 85, 110, 24);
-		getContentPane().add(idField);
 		
 		JLabel lblPhoneNumber = new JLabel("Phone Number: ");
-		lblPhoneNumber.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblPhoneNumber.setBounds(35, 188, 119, 20);
+		lblPhoneNumber.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 22));
+		lblPhoneNumber.setBounds(76, 406, 171, 20);
 		getContentPane().add(lblPhoneNumber);
 		
-		TextField phoneField = new TextField();
-		phoneField.setBackground(new Color(245, 245, 245));
-		lblPhoneNumber.setLabelFor(phoneField);
-		phoneField.setBounds(157, 184, 128, 24);
-		getContentPane().add(phoneField);
-		
 		JLabel lblEmail = new JLabel("Email:");
-		lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblEmail.setBounds(35, 238, 56, 20);
+		lblEmail.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 22));
+		lblEmail.setBounds(76, 474, 69, 20);
 		getContentPane().add(lblEmail);
 		
 		TextField emailField = new TextField();
+		emailField.setFont(new Font("Dialog", Font.PLAIN, 20));
 		emailField.setBackground(new Color(245, 245, 245));
 		lblEmail.setLabelFor(emailField);
-		emailField.setBounds(97, 238, 188, 24);
+		emailField.setBounds(151, 474, 338, 30);
 		getContentPane().add(emailField);
 		
 		JComboBox comboBox = new JComboBox();
 		comboBox.setBackground(new Color(245, 245, 245));
 		comboBox.setModel(new DefaultComboBoxModel(City.values()));
-		comboBox.setBounds(87, 299, 78, 24);
+		comboBox.setBounds(135, 546, 97, 30);
 		getContentPane().add(comboBox);
 		
 		JLabel lblCity = new JLabel("City:");
 		lblCity.setLabelFor(comboBox);
-		lblCity.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblCity.setBounds(35, 301, 44, 20);
+		lblCity.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 22));
+		lblCity.setBounds(76, 540, 44, 30);
 		getContentPane().add(lblCity);
 		
 		JLabel lblStreet = new JLabel("Street:");
-		lblStreet.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblStreet.setBounds(181, 301, 56, 20);
+		lblStreet.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 22));
+		lblStreet.setBounds(244, 548, 78, 20);
 		getContentPane().add(lblStreet);
 		
 		TextField streetField = new TextField();
+		streetField.setFont(new Font("Dialog", Font.PLAIN, 20));
 		streetField.setBackground(new Color(245, 245, 245));
 		lblStreet.setLabelFor(streetField);
-		streetField.setBounds(241, 299, 128, 24);
+		streetField.setBounds(326, 546, 369, 30);
 		getContentPane().add(streetField);
 		
 		TextField numberField = new TextField();
+		numberField.setFont(new Font("Dialog", Font.PLAIN, 20));
 		numberField.setBackground(new Color(245, 245, 245));
-		numberField.setBounds(450, 299, 44, 24);
+		numberField.setBounds(345, 616, 78, 30);
 		getContentPane().add(numberField);
 		
 		TextField zipField = new TextField();
+		zipField.setFont(new Font("Dialog", Font.PLAIN, 20));
 		zipField.setBackground(new Color(245, 245, 245));
-		zipField.setBounds(119, 356, 78, 24);
+		zipField.setBounds(555, 616, 140, 30);
 		getContentPane().add(zipField);
 		
-		JLabel lblNumber = new JLabel("number:");
+		JLabel lblNumber = new JLabel("Number:");
 		lblNumber.setLabelFor(numberField);
-		lblNumber.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblNumber.setBounds(375, 301, 69, 20);
+		lblNumber.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 22));
+		lblNumber.setBounds(242, 616, 97, 30);
 		getContentPane().add(lblNumber);
 		
 		JLabel lblZipCode = new JLabel("ZIP Code:");
 		lblZipCode.setLabelFor(zipField);
-		lblZipCode.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblZipCode.setBounds(35, 356, 78, 20);
+		lblZipCode.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 22));
+		lblZipCode.setBounds(452, 616, 97, 30);
 		getContentPane().add(lblZipCode);
 		
 		JTextPane txtpnAddNewEmployee = new JTextPane();
-		txtpnAddNewEmployee.setForeground(new Color(128, 0, 128));
-		txtpnAddNewEmployee.setBackground(new Color(248, 248, 255));
-		txtpnAddNewEmployee.setFont(new Font("Tahoma", Font.BOLD, 17));
-		txtpnAddNewEmployee.setText("ADD New Employee Form");
-		txtpnAddNewEmployee.setBounds(131, 28, 238, 26);
+		txtpnAddNewEmployee.setForeground(new Color(0, 0, 0));
+		txtpnAddNewEmployee.setBackground(new Color(240, 248, 255));
+		txtpnAddNewEmployee.setFont(new Font("Tahoma", Font.BOLD, 30));
+		txtpnAddNewEmployee.setText("Add New Employee Form");
+		txtpnAddNewEmployee.setBounds(216, 88, 390, 47);
 		getContentPane().add(txtpnAddNewEmployee);
 		
 		JButton btnBack = new JButton("Back");
@@ -174,47 +160,318 @@ public class AddNewEmployee extends JFrame{
 		JButton btnSubmit = new JButton("Submit");
 		btnSubmit.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnSubmit.setForeground(new Color(255, 255, 255));
-		btnSubmit.setBackground(new Color(0, 51, 102));
-		btnSubmit.setBounds(190, 485, 115, 29);
+		btnSubmit.setBackground(new Color(102, 205, 170));
+		btnSubmit.setBounds(294, 755, 155, 53);
 		getContentPane().add(btnSubmit);
 		
 		JLabel lblUserName = new JLabel("User Name:");
-		lblUserName.setBounds(35, 403, 88, 20);
+		lblUserName.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 22));
+		lblUserName.setBounds(76, 262, 119, 20);
 		getContentPane().add(lblUserName);
 		
-		TextField userField = new TextField();
-		userField.setBackground(new Color(245, 245, 245));
-		lblUserName.setLabelFor(userField);
-		userField.setBounds(129, 403, 132, 24);
-		getContentPane().add(userField);
-		
 		JLabel lblPassword = new JLabel("Password: ");
-		lblPassword.setBounds(267, 403, 78, 20);
+		lblPassword.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 22));
+		lblPassword.setBounds(408, 262, 104, 20);
 		getContentPane().add(lblPassword);
 		
-		TextField passField = new TextField();
+		JTextArea idField = new JTextArea();
+		idField.setFont(new Font("Courier New", Font.PLAIN, 20));
+		
+		idField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+
+				if(ValidateID(idField.getText()) == true){
+				    Border border = BorderFactory.createLineBorder(Color.GREEN, 2);
+					idField.setBorder(border);
+				}
+				else if(ValidateID(idField.getText()) == false) {
+					Border border = BorderFactory.createLineBorder(Color.RED, 2);
+					idField.setBorder(border);
+				}
+						
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(ValidateID(idField.getText()) == true){
+				    Border border = BorderFactory.createLineBorder(Color.GREEN, 2);
+					idField.setBorder(border);
+				}
+				else if(ValidateID(idField.getText()) == false) {
+					Border border = BorderFactory.createLineBorder(Color.RED, 2);
+					idField.setBorder(border);
+				}
+				
+			
+			}
+	
+		});
+		
+		
+		
+		idField.setBackground(new Color(245, 245, 245));
+		idField.setBorder(new MatteBorder(2, 2, 0, 1, (Color) UIManager.getColor("TextField.darkShadow")));
+		idField.setBounds(216, 196, 172, 30);
+		getContentPane().add(idField);
+		
+		JTextArea firstNameField = new JTextArea();
+		firstNameField.setFont(new Font("Courier New", Font.PLAIN, 20));
+		
+		firstNameField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+
+				if(ValidateName(firstNameField.getText()) == true){
+				
+					Border border = BorderFactory.createLineBorder(Color.GREEN, 2);
+				    firstNameField.setBorder(border);
+				}
+			
+				else if(ValidateName(firstNameField.getText()) == false) {
+				
+					Border border = BorderFactory.createLineBorder(Color.RED, 2);
+					firstNameField.setBorder(border);
+				}
+						
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(ValidateName(firstNameField.getText()) == true){
+				    Border border = BorderFactory.createLineBorder(Color.GREEN, 2);
+				    firstNameField.setBorder(border);
+				}
+			
+				else if(ValidateName(firstNameField.getText()) == false) {
+					Border border = BorderFactory.createLineBorder(Color.RED, 2);
+					firstNameField.setBorder(border);
+				}
+				
+			}
+	
+		});
+		
+		firstNameField.setBorder(new MatteBorder(2, 2, 0, 1, (Color) UIManager.getColor("TextField.darkShadow")));
+		firstNameField.setBackground(new Color(245, 245, 245));
+		firstNameField.setBounds(216, 334, 172, 30);
+		getContentPane().add(firstNameField);
+		
+		JTextArea lastNameField = new JTextArea();
+		lastNameField.setFont(new Font("Courier New", Font.PLAIN, 20));
+		lastNameField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+
+				if(ValidateName(lastNameField.getText()) == true){
+				
+					Border border = BorderFactory.createLineBorder(Color.GREEN, 2);
+					lastNameField.setBorder(border);
+				}
+			
+				else if(ValidateName(lastNameField.getText()) == false) {
+				
+					Border border = BorderFactory.createLineBorder(Color.RED, 2);
+					lastNameField.setBorder(border);
+				}
+						
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(ValidateName(lastNameField.getText()) == true){
+				    Border border = BorderFactory.createLineBorder(Color.GREEN, 2);
+				    lastNameField.setBorder(border);
+				}
+			
+				else if(ValidateName(lastNameField.getText()) == false) {
+					Border border = BorderFactory.createLineBorder(Color.RED, 2);
+					lastNameField.setBorder(border);
+				}
+				
+			}
+	
+		});
+		lastNameField.setBorder(new MatteBorder(2, 2, 0, 1, (Color) UIManager.getColor("TextField.darkShadow")));
+		lastNameField.setBackground(new Color(245, 245, 245));
+		lastNameField.setBounds(532, 334, 172, 30);
+		getContentPane().add(lastNameField);
+		
+		JTextArea phoneField = new JTextArea();
+		phoneField.setFont(new Font("Courier New", Font.PLAIN, 20));
+		
+		phoneField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+
+				if(ValidateFhone(phoneField.getText()) == true){
+				
+					Border border = BorderFactory.createLineBorder(Color.GREEN, 2);
+					phoneField.setBorder(border);
+				}
+			
+				else if(ValidateFhone(phoneField.getText()) == false) {
+				
+					Border border = BorderFactory.createLineBorder(Color.RED, 2);
+					phoneField.setBorder(border);
+				}
+						
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(ValidateFhone(phoneField.getText()) == true){
+				    Border border = BorderFactory.createLineBorder(Color.GREEN, 2);
+				    phoneField.setBorder(border);
+				}
+			
+				else if(ValidateFhone(phoneField.getText()) == false) {
+					Border border = BorderFactory.createLineBorder(Color.RED, 2);
+					phoneField.setBorder(border);
+				}
+				
+			}
+	
+		});
+		phoneField.setBorder(new MatteBorder(2, 2, 0, 1, (Color) UIManager.getColor("TextField.darkShadow")));
+		phoneField.setBackground(new Color(245, 245, 245));
+		phoneField.setBounds(244, 406, 245, 30);
+		getContentPane().add(phoneField);
+		
+		JTextArea userField = new JTextArea();
+		userField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+
+				if(ValidateUserName(userField.getText()) == true){
+				
+					Border border = BorderFactory.createLineBorder(Color.GREEN, 2);
+					userField.setBorder(border);
+				}
+			
+				else if(ValidateUserName(userField.getText()) == false) {
+				
+					Border border = BorderFactory.createLineBorder(Color.RED, 2);
+					userField.setBorder(border);
+				}
+						
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(ValidateUserName(userField.getText()) == true){
+				    Border border = BorderFactory.createLineBorder(Color.GREEN, 2);
+				    userField.setBorder(border);
+				}
+			
+				else if(ValidateUserName(userField.getText()) == false) {
+					Border border = BorderFactory.createLineBorder(Color.RED, 2);
+					userField.setBorder(border);
+				}
+				
+			}
+	
+		});
+		userField.setFont(new Font("Courier New", Font.PLAIN, 20));
+		userField.setBorder(new MatteBorder(2, 2, 0, 1, (Color) UIManager.getColor("TextField.darkShadow")));
+		userField.setBackground(new Color(245, 245, 245));
+		userField.setBounds(216, 262, 172, 30);
+		getContentPane().add(userField);
+		
+		JTextArea passField = new JTextArea();
+		passField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+
+				if(ValidatePassword(passField.getText()) == true){
+				
+					Border border = BorderFactory.createLineBorder(Color.GREEN, 2);
+					passField.setBorder(border);
+				}
+			
+				else if(ValidatePassword(passField.getText()) == false) {
+				
+					Border border = BorderFactory.createLineBorder(Color.RED, 2);
+					passField.setBorder(border);
+				}
+						
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(ValidatePassword(passField.getText()) == true){
+				    Border border = BorderFactory.createLineBorder(Color.GREEN, 2);
+				    passField.setBorder(border);
+				}
+			
+				else if(ValidatePassword(passField.getText()) == false) {
+					Border border = BorderFactory.createLineBorder(Color.RED, 2);
+					passField.setBorder(border);
+				}
+				
+			}
+	
+		});
+		passField.setFont(new Font("Courier New", Font.PLAIN, 20));
+		passField.setBorder(new MatteBorder(2, 2, 0, 1, (Color) UIManager.getColor("TextField.darkShadow")));
 		passField.setBackground(new Color(245, 245, 245));
-		lblPassword.setLabelFor(passField);
-		passField.setBounds(350, 399, 144, 24);
+		passField.setBounds(532, 262, 172, 30);
 		getContentPane().add(passField);
+		
+		
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				
 				
 			Address adress = new Address((City)comboBox.getSelectedItem() , streetField.getText(), numberField.getText(), zipField.getText());	
-				
-			try {
-			
-				Employee newEmployee = new Employee(idField.getText(), firstNameField.getText(), userField.getText(), passField.getText(),
-						lastNameField.getText(), adress, phoneField.getText(), emailField.getText(), LocalDate.now());
 		
-				AddEmployee(newEmployee);
-				JOptionPane.showMessageDialog(getContentPane(),"Employee Saved Successfuly!");
+			try {
+						
+					if(ValidateID(idField.getText()) == true 
+						&&ValidateName(firstNameField.getText()) == true 
+						&& ValidateName(lastNameField.getText()) == true 
+						&& ValidateFhone(phoneField.getText()) == true) {
+				
+							Employee newEmployee = new Employee(idField.getText(), firstNameField.getText(), userField.getText(), passField.getText(),
+							lastNameField.getText(), adress, phoneField.getText(), emailField.getText(), LocalDate.now());
+			
+				
+							if(store.containsEmployee(newEmployee)== false) {
+							
+							
+							AddEmployee(newEmployee);
+						
+							JOptionPane.showMessageDialog(getContentPane(),"Employee Saved Successfuly!");
+							AdminPage AP = new AdminPage();
+							AP.getFrame().setVisible(true);
+							dispose();
+						
+						}
+					
+						else JOptionPane.showMessageDialog(getContentPane(),"Employee Alredy Exist, Please Try Again!"); 
+
+						
+					}
+					
+					else JOptionPane.showMessageDialog(getContentPane(),"One Or More Of The Details You Entered Are Invalid! "
+																	  + "\nFist And Last Name Must Start With Capital Letter And They Can't Contain Numbers"
+																	  + "\nAn ID Must Be 9 Digits Long And Contain Only Numbers"
+																	  + "\nAn Phone Number Must Be 10 Digits Long And Contain Only Numbers ");
+				
+//			}
+				
 				
 			} catch (InvalidUserName | IlegalPassword e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				JOptionPane.showMessageDialog(getContentPane(),e1.getMessage());
+
+				
 			}
 
 				
@@ -227,11 +484,11 @@ public class AddNewEmployee extends JFrame{
 	protected void AddEmployee(Employee newEmployee) {
 		
 		//Save Employee
-		deserialize("store.ser"); 
 		store.addEmployee(newEmployee);
 		serialize("store.ser"); 
 		
 	}
+	
 	
 
 	private static void deserialize(String fileName) {
@@ -281,5 +538,37 @@ public class AddNewEmployee extends JFrame{
 			
 		}
 
+	}
+	
+	
+	public boolean ValidateName(String name) {
+		
+		return name.matches("[A-Z][^0-9]*")  && name.length() > 2;
+		
+	}
+	
+	
+	public boolean ValidateID(String ID) {
+		
+		return ID.matches("[0-9]{9}");
+		
+	}
+	
+	public boolean ValidateFhone(String ID) {
+		
+		return ID.matches("[0-9]{10}");
+		
+	}
+	
+	public boolean ValidatePassword(String Password) {
+		
+		return Password.length() > 6;
+		
+	}
+	
+	public boolean ValidateUserName(String UserName) {
+		
+		return UserName.length() > 2; 
+		
 	}
 }

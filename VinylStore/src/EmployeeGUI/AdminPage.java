@@ -21,6 +21,8 @@ import javax.swing.ImageIcon;
 import java.awt.GridLayout;
 import java.awt.Font;
 import java.awt.Color;
+import javax.swing.UIManager;
+import java.awt.SystemColor;
 
 public class AdminPage extends JFrame{
 
@@ -31,7 +33,8 @@ public class AdminPage extends JFrame{
 		initialize(); 
 	}
 	
-	public AdminPage() {
+	public AdminPage(){
+		getContentPane().setFont(new Font("Dialog", Font.PLAIN, 30));
 		
 		initialize(); 
 	}
@@ -50,7 +53,7 @@ public class AdminPage extends JFrame{
 		
 		
 		JButton btnViewEmployees = new JButton("View Employees");
-		btnViewEmployees.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		btnViewEmployees.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		btnViewEmployees.setBackground(new Color(176, 224, 230));
 		btnViewEmployees.setBounds(32, 303, 252, 80);
 		getContentPane().add(btnViewEmployees);
@@ -61,42 +64,36 @@ public class AdminPage extends JFrame{
 		btnAddEmployee.setBounds(307, 303, 252, 80);
 		getContentPane().add(btnAddEmployee);
 		
-		JButton btnAddNewCustomer = new JButton("Add New Customer");
-		btnAddNewCustomer.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		btnAddNewCustomer.setBackground(new Color(176, 224, 230));
-		btnAddNewCustomer.setBounds(307, 399, 252, 80);
-		getContentPane().add(btnAddNewCustomer);
-		
 		JButton btnAddVinyl = new JButton("Add Vinyl to Store");
-		btnAddVinyl.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnAddVinyl.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		btnAddVinyl.setBackground(new Color(176, 224, 230));
 		btnAddVinyl.setBounds(307, 207, 252, 80);
 		getContentPane().add(btnAddVinyl);
 		
 		JButton btnViewOrders = new JButton("View Orders");
-		btnViewOrders.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		btnViewOrders.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		btnViewOrders.setBackground(new Color(176, 224, 230));
 		btnViewOrders.setBounds(32, 207, 252, 80);
 		getContentPane().add(btnViewOrders);
 		
 		
-		JButton btnViewVinyl = new JButton("View Priducts in Store");
-		btnViewVinyl.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		JButton btnViewVinyl = new JButton("View Products in Store");
+		btnViewVinyl.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		btnViewVinyl.setBackground(new Color(176, 224, 230));
-		btnViewVinyl.setBounds(32, 399, 252, 80);
+		btnViewVinyl.setBounds(32, 399, 527, 80);
 		getContentPane().add(btnViewVinyl);
 		
 		JTextPane txtpnEditDate = new JTextPane();
 		txtpnEditDate.setBackground(new Color(245, 245, 245));
-		txtpnEditDate.setFont(new Font("Segoe UI Semibold", Font.BOLD, 25));
-		txtpnEditDate.setBounds(381, 128, 70, 39);
+		txtpnEditDate.setFont(new Font("Dialog", Font.PLAIN, 30));
+		txtpnEditDate.setBounds(400, 139, 70, 39);
 		getContentPane().add(txtpnEditDate);
 		txtpnEditDate.setText("Edit Data");
 		
 		JTextPane txtpnView = new JTextPane();
 		txtpnView.setBackground(new Color(245, 245, 245));
-		txtpnView.setFont(new Font("Segoe UI Semibold", Font.BOLD, 25));
-		txtpnView.setBounds(140, 128, 95, 39);
+		txtpnView.setFont(new Font("Dialog", Font.PLAIN, 30));
+		txtpnView.setBounds(119, 139, 95, 39);
 		getContentPane().add(txtpnView);
 		txtpnView.setText("View");
 		
@@ -104,6 +101,13 @@ public class AdminPage extends JFrame{
 		btnBack.setBackground(new Color(192, 192, 192));
 		btnBack.setBounds(0, 0, 86, 29);
 		getContentPane().add(btnBack);
+		
+		JTextPane txtpnOptions = new JTextPane();
+		txtpnOptions.setBackground(new Color(245, 245, 245));
+		txtpnOptions.setFont(new Font("Tahoma", Font.PLAIN, 32));
+		txtpnOptions.setText("Options");
+		txtpnOptions.setBounds(246, 62, 156, 50);
+		getContentPane().add(txtpnOptions);
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -140,12 +144,6 @@ public class AdminPage extends JFrame{
 				AddVinyl addVinyl = new AddVinyl();
 				addVinyl.setVisible(true);
 				dispose();
-				
-			}
-		});
-		btnAddNewCustomer.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
 				
 			}
 		});

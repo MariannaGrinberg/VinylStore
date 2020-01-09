@@ -27,6 +27,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import java.awt.Color;
 import java.awt.SystemColor;
+import javax.swing.SwingConstants;
 
 public class ShowProducts {
 
@@ -69,7 +70,7 @@ public class ShowProducts {
 		
 		productsWindow = new JFrame();
 		productsWindow.setTitle("Vinyl Store - Products");
-		productsWindow.setBounds(100, 100, 822, 540);
+		productsWindow.setBounds(100, 100, 1047, 612);
 		productsWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		productsWindow.getContentPane().setLayout(null);
 		
@@ -101,27 +102,23 @@ public class ShowProducts {
 			e.printStackTrace();
 		}
 		JLabel lblProductsInStore = new JLabel("Products in Store:");
-		lblProductsInStore.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblProductsInStore.setBounds(40, 90, 187, 20);
+		lblProductsInStore.setFont(new Font("Segoe UI Semibold", Font.BOLD, 24));
+		lblProductsInStore.setBounds(15, 74, 228, 38);
 		productsWindow.getContentPane().add(lblProductsInStore);
 		
-		descriptionField = new JTextArea();
-		descriptionField.setForeground(new Color(0, 0, 0));
-		descriptionField.setBounds(630, 116, 163, 359);
-		productsWindow.getContentPane().add(descriptionField);
-		
 		JTextPane txtpnDescriptionfield = new JTextPane();
-		txtpnDescriptionfield.setFont(new Font("Tahoma", Font.BOLD, 16));
+		txtpnDescriptionfield.setFont(new Font("Segoe UI Semibold", Font.BOLD, 24));
 		txtpnDescriptionfield.setBackground(SystemColor.menu);
-		txtpnDescriptionfield.setText("description");
-		txtpnDescriptionfield.setBounds(663, 84, 96, 26);
+		txtpnDescriptionfield.setText("Description:");
+		txtpnDescriptionfield.setBounds(849, 74, 136, 38);
 		productsWindow.getContentPane().add(txtpnDescriptionfield);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(15, 116, 609, 359);
+		scrollPane.setBounds(15, 116, 793, 370);
 		productsWindow.getContentPane().add(scrollPane);
 		
 		table = new JTable();
+		table.setDefaultEditor(Object.class, null);
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -132,7 +129,6 @@ public class ShowProducts {
 			
 				selectedProduct = store.getProductByID(productID);
 				
-				System.out.println(selectedProduct.getDescription());
 				descriptionField.setText(selectedProduct.getDescription());
 				
 			}
@@ -145,7 +141,11 @@ public class ShowProducts {
         
         model = new DefaultTableModel();
         model.setColumnIdentifiers(columns);
+        
         table.setModel(model);
+        table.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        table.setAlignmentX(SwingConstants.CENTER);
+        table.setRowHeight(22);
         
 		
 		for(Vinyl product : this.store.getProducts()) {
@@ -167,6 +167,15 @@ public class ShowProducts {
 		JMenuItem menuItem = new JMenuItem("< Back to Main Window");
 		menuItem.setBounds(0, 0, 243, 31);
 		productsWindow.getContentPane().add(menuItem);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(823, 116, 187, 370);
+		productsWindow.getContentPane().add(scrollPane_1);
+		
+		descriptionField = new JTextArea();
+		descriptionField.setEditable(false);
+		scrollPane_1.setViewportView(descriptionField);
+		descriptionField.setForeground(new Color(0, 0, 0));
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				

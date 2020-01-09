@@ -19,6 +19,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
 import Classes.Customer;
@@ -115,7 +116,8 @@ public class CustomerOrdersGUI {
 			}
 		});
 		
-		this.table = new JTable();
+		this.table = new JTable();	
+		table.setDefaultEditor(Object.class, null);
 		this.table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -145,6 +147,9 @@ public class CustomerOrdersGUI {
         this.model = new DefaultTableModel();
         this.model.setColumnIdentifiers(columns);
         this.table.setModel(model);
+        table.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        table.setAlignmentX(SwingConstants.CENTER);
+        table.setRowHeight(22);
         
         ArrayList<Order> orders = this.store.getOrdersByCustomerID(this.customer.getID());
         Collections.sort(orders);
@@ -168,17 +173,17 @@ public class CustomerOrdersGUI {
 		customerOrdersWindow.getContentPane().add(menuItem);
 		
 		JLabel lblMyOrders = new JLabel("My Orders:");
-		lblMyOrders.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblMyOrders.setBounds(60, 71, 187, 20);
+		lblMyOrders.setFont(new Font("Tahoma", Font.BOLD, 22));
+		lblMyOrders.setBounds(60, 60, 187, 31);
 		customerOrdersWindow.getContentPane().add(lblMyOrders);
 		
 		JLabel lblOrderdetails = new JLabel("Order Details:");
-		lblOrderdetails.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblOrderdetails.setBounds(658, 72, 187, 20);
+		lblOrderdetails.setFont(new Font("Tahoma", Font.BOLD, 22));
+		lblOrderdetails.setBounds(658, 60, 187, 32);
 		customerOrdersWindow.getContentPane().add(lblOrderdetails);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(60, 107, 553, 431);
+		scrollPane.setBounds(60, 107, 566, 431);
 		customerOrdersWindow.getContentPane().add(scrollPane);
 		
 		scrollPane.setViewportView(table);
@@ -188,6 +193,8 @@ public class CustomerOrdersGUI {
 		customerOrdersWindow.getContentPane().add(scrollPane_1);
 		
 		this.orderDetailsField = new JTextArea();
+		orderDetailsField.setEditable(false);
+		orderDetailsField.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		scrollPane_1.setViewportView(orderDetailsField);
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
@@ -195,12 +202,13 @@ public class CustomerOrdersGUI {
 		customerOrdersWindow.getContentPane().add(scrollPane_2);
 		
 		this.totalPriceField = new JTextArea();
-		this.totalPriceField.setFont(new Font("Arial", Font.PLAIN, 16));
+		totalPriceField.setEditable(false);
+		this.totalPriceField.setFont(new Font("Arial", Font.PLAIN, 17));
 		scrollPane_2.setViewportView(totalPriceField);
 		
 		JLabel lblTotalPrice = new JLabel("Total Price:");
-		lblTotalPrice.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblTotalPrice.setBounds(658, 443, 187, 20);
+		lblTotalPrice.setFont(new Font("Tahoma", Font.BOLD, 22));
+		lblTotalPrice.setBounds(658, 432, 187, 31);
 		customerOrdersWindow.getContentPane().add(lblTotalPrice);
 	}
 	
