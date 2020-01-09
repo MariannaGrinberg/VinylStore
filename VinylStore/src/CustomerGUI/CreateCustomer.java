@@ -157,7 +157,7 @@ public class CreateCustomer  extends JFrame{
 		}
 	});
 		
-		JTextArea FieldId = new JTextArea();
+		JTextArea FieldId = new JTextArea();	
 		FieldId.setFont(new Font("Courier New", Font.PLAIN, 20));
 		FieldId.setBorder(new MatteBorder(2, 2, 0, 1, (Color) UIManager.getColor("TextField.darkShadow")));
 		FieldId.setBackground(UIManager.getColor("TextArea.background"));
