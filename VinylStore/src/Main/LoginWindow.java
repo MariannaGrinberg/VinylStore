@@ -203,6 +203,7 @@ public class LoginWindow {
 								
 							}
 						
+							else JOptionPane.showMessageDialog(frmVinylS,"please try again");
 							 
 						}
 						
