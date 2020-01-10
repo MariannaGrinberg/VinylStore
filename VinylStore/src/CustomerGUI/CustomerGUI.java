@@ -167,7 +167,7 @@ public class CustomerGUI {
 		
 		JLabel lblWelcome = new JLabel("Welcome " + this.customer.getUsername());
 		lblWelcome.setFont(new Font("Arial", Font.PLAIN, 17));
-		lblWelcome.setBounds(0, 0, 277, 20);
+		lblWelcome.setBounds(12, 13, 277, 20);
 		customerWindow.getContentPane().add(lblWelcome);
 	}
 	

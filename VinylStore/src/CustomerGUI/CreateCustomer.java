@@ -54,7 +54,7 @@ public class CreateCustomer  extends JFrame{
 		ImageIcon img = new ImageIcon("VinylStoreIcon.png");
 		this.setIconImage(img.getImage());
 		
-		setSize(858,889);
+		setSize(858,987);
 		
 		JTextPane txtpnCreateAccount = new JTextPane();
 		txtpnCreateAccount.setBackground(new Color(240, 248, 255));
@@ -80,55 +80,55 @@ public class CreateCustomer  extends JFrame{
 		
 		JLabel lblCity = new JLabel("City:");
 		lblCity.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 23));
-		lblCity.setBounds(79, 427, 54, 35);
+		lblCity.setBounds(79, 451, 54, 35);
 		getContentPane().add(lblCity);
 		
 		JComboBox comboBox = new JComboBox();
 		comboBox.setBackground(UIManager.getColor("ComboBox.buttonHighlight"));
 		comboBox.setModel(new DefaultComboBoxModel(City.values()));
-		comboBox.setBounds(216, 432, 110, 35);
+		comboBox.setBounds(216, 456, 110, 35);
 		getContentPane().add(comboBox);
 		
 		JLabel lblStreet = new JLabel("Street:");
 		lblStreet.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 23));
-		lblStreet.setBounds(79, 502, 75, 25);
+		lblStreet.setBounds(79, 526, 75, 25);
 		getContentPane().add(lblStreet);
 		
 		TextField FieldStreet = new TextField();
 		FieldStreet.setFont(new Font("Dialog", Font.PLAIN, 22));
-		FieldStreet.setBounds(216, 502, 178, 35);
+		FieldStreet.setBounds(216, 526, 178, 35);
 		getContentPane().add(FieldStreet);
 		
 		JLabel lblNumber = new JLabel("Number:");
 		lblNumber.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 23));
-		lblNumber.setBounds(79, 574, 102, 25);
+		lblNumber.setBounds(79, 598, 102, 25);
 		getContentPane().add(lblNumber);
 		
 		TextField FieldNumber = new TextField();
 		FieldNumber.setFont(new Font("Dialog", Font.PLAIN, 22));
 		lblNumber.setLabelFor(FieldNumber);
-		FieldNumber.setBounds(216, 564, 83, 35);
+		FieldNumber.setBounds(216, 588, 83, 35);
 		getContentPane().add(FieldNumber);
 		
 		JLabel lblZipCode = new JLabel("Zip Code:");
 		lblZipCode.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 23));
-		lblZipCode.setBounds(420, 569, 114, 30);
+		lblZipCode.setBounds(420, 593, 114, 30);
 		getContentPane().add(lblZipCode);
 		
 		TextField FieldZip = new TextField();
 		FieldZip.setFont(new Font("Dialog", Font.PLAIN, 22));
 		lblZipCode.setLabelFor(FieldZip);
-		FieldZip.setBounds(547, 564, 132, 35);
+		FieldZip.setBounds(547, 588, 132, 35);
 		getContentPane().add(FieldZip);
 		
 		JLabel lblPhoneNumber = new JLabel("Phone Number:");
 		lblPhoneNumber.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 23));
-		lblPhoneNumber.setBounds(79, 638, 170, 44);
+		lblPhoneNumber.setBounds(79, 690, 170, 44);
 		getContentPane().add(lblPhoneNumber);
 		
 		JLabel lblEmail = new JLabel("Email:");
 		lblEmail.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 23));
-		lblEmail.setBounds(79, 714, 69, 35);
+		lblEmail.setBounds(79, 766, 69, 35);
 		getContentPane().add(lblEmail);
 		
 		JLabel lblUserName = new JLabel("User Name:");
@@ -363,7 +363,7 @@ public class CreateCustomer  extends JFrame{
 		FieldPhone.setFont(new Font("Courier New", Font.PLAIN, 20));
 		FieldPhone.setBorder(new MatteBorder(2, 2, 0, 1, (Color) UIManager.getColor("TextField.darkShadow")));
 		FieldPhone.setBackground(Color.WHITE);
-		FieldPhone.setBounds(261, 651, 251, 30);
+		FieldPhone.setBounds(261, 703, 251, 30);
 		getContentPane().add(FieldPhone);
 		FieldPhone.setFont(new Font("Courier New", Font.PLAIN, 20));
 		
@@ -404,14 +404,14 @@ public class CreateCustomer  extends JFrame{
 		
 		TextField FieldEmail = new TextField();
 		FieldEmail.setFont(new Font("Dialog", Font.PLAIN, 22));
-		FieldEmail.setBounds(261, 714, 251, 35);
+		FieldEmail.setBounds(261, 766, 251, 35);
 		getContentPane().add(FieldEmail);
 		
 		JButton btnSubmit = new JButton("Submit");
 		btnSubmit.setForeground(new Color(255, 255, 255));
 		btnSubmit.setBackground(new Color(102, 205, 170));
 		btnSubmit.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 23));
-		btnSubmit.setBounds(355, 785, 152, 44);
+		btnSubmit.setBounds(355, 868, 152, 44);
 		getContentPane().add(btnSubmit);
 		
 	

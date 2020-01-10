@@ -106,13 +106,13 @@ public class AddVinyl extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 
 				Song song = addNewSong(); 
-				if(song != null) {
+				if(song != null && (song.getName().length() > 0 && song.getArtist().length() > 0)) {
 					songs.add(song);
 					setModel();
 					JOptionPane.showMessageDialog(getContentPane(),"Song Added Successfuly!");
 				}
 				else {
-					JOptionPane.showMessageDialog(getContentPane(),"You can't add an empty song!!");
+					JOptionPane.showMessageDialog(getContentPane(),"One or more of Song field was empty!");
 				}
 			}
 		});
@@ -347,6 +347,7 @@ public class AddVinyl extends JFrame{
 		table = new JTable();
 
 		table.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		table.setDefaultEditor(Object.class, null);
 		setModel();
 
 		this.table.addMouseListener(new MouseAdapter() {
@@ -357,7 +358,7 @@ public class AddVinyl extends JFrame{
 		});
 
 		scrollPane.setViewportView(table);
-		
+
 		JButton btnRemove = new JButton("Remove");
 		btnRemove.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -388,17 +389,32 @@ public class AddVinyl extends JFrame{
 							JOptionPane.showMessageDialog(getContentPane(),"You can't add an empty vinyl!!");
 						}
 						else {
-
+							int discount;
+							
+							if(discountFiled.getText().equals("")) {
+								discount = 0;
+							}
+							else {
+								discount = Integer.valueOf(discountFiled.getText());
+							}
+							
 							Vinyl newVinyl	= new Vinyl(nameFiled.getText(), yearFiled.getText(), 
 									(Format) comboBoxFormat.getSelectedItem(), (Condition) comboBoxCondition.getSelectedItem(), 
-									Integer.valueOf(discountFiled.getText()), Float.valueOf(priceFiled.getText()));
+									discount, Float.valueOf(priceFiled.getText()));
 
 
-							for(Song song: songs) 
+							for(Song song : songs) 
 								newVinyl.addSong(song);
-
+							
 							deserialize("store.ser"); 
+							
+							newVinyl.setVinylID(store.getLastProductID());
+							newVinyl.setArtist();
+							newVinyl.setDescription();
+							
 							store.addProduct(newVinyl);
+							System.out.println(store.getProducts());
+							
 							serialize("store.ser"); 
 
 							JOptionPane.showMessageDialog(getContentPane(),"Vinyl Seaved Successfuly!");
@@ -450,13 +466,13 @@ public class AddVinyl extends JFrame{
 				return new Song(name, artist, ganreSelected); 
 
 
+
 			} 
 			catch (Exception e) {
 				JOptionPane.showMessageDialog(null, e.getMessage(),"Error",
 						JOptionPane.ERROR_MESSAGE);
 
 			}
-
 		}
 		return null;
 	}
@@ -572,7 +588,7 @@ public class AddVinyl extends JFrame{
 	private void setModel() {
 		//headers for the table
 		String[] columns = new String[] {
-				"No", "Name", "Genre" 
+				"No", "Name","Artist", "Genre" 
 		};
 
 		this.model = new DefaultTableModel();
@@ -595,7 +611,8 @@ public class AddVinyl extends JFrame{
 
 			row[0] = i + 1;
 			row[1] = songs.get(i).getName();
-			row[2] = songs.get(i).getGenre();
+			row[2] = songs.get(i).getArtist();
+			row[3] = songs.get(i).getGenre();
 
 			model.addRow(row);
 		}

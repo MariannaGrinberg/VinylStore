@@ -89,7 +89,7 @@ public class Vinyl implements Comparable<Vinyl>, Serializable {
 
 	public void setArtist() {
 		ArrayList<Song> songsArr = this.songs;
-		String artist = songsArr.get(1).getArtist();
+		String artist = songsArr.get(0).getArtist();
 		
 		boolean check = true;
 		

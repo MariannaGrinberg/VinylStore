@@ -218,6 +218,7 @@ public class WriteProductsFile {
 				System.out.println(vinyl);
 			}
 			
+			
 			FileOutputStream file;
 			file = new FileOutputStream(new File("store.ser"));
 			
@@ -274,6 +275,7 @@ private static void serialize(String fileName) {
 		
 		out.close();
 		fileOut.close();
+		
 		
 	
 		
