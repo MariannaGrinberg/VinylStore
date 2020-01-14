@@ -111,6 +111,7 @@ public class Vinyl implements Comparable<Vinyl>, Serializable {
 	}
 
 	public void setName(String name) {
+		
 		this.name = name;
 	}
 	

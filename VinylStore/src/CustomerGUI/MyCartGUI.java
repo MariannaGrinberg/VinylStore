@@ -266,9 +266,11 @@ public class MyCartGUI {
 						
 						order.setID(store.getLastOrderID());
 						
-						for(Vinyl product : customer.getCart()) {
-							order.addProducts(product);
-						}
+//						for(Vinyl product : customer.getCart()) {
+//							order.addProducts(product);
+//						}
+						
+						customer.getCart().forEach(product -> order.addProducts(product));
 						
 						store.addOrder(order);
 						
