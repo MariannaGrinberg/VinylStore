@@ -120,16 +120,16 @@ public class Vinyl implements Comparable<Vinyl>, Serializable {
 		String description = "#" + this.vinylID + " - " + this.name; 
 
 		if(!this.artist.equals("")) {
-			description += " - " + this.artist + ":\n";
+			description += " - " + this.artist + ":\\n";
 		}
 		else {
-			description += ":\n";
+			description += ":\\n";
 		}
 		
 		
 		int count = 1;
 		for(Song song : this.songs) {
-			description = description + "\n" + count++ + ". " + song.getName();
+			description = description + "\\n" + count++ + ". " + song.getName();
 		}
 		
 		this.description = description;
