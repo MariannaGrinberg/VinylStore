@@ -16,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
 import Classes.Customer;
 import Classes.Store;
 import Classes.Vinyl;
+import JDBC.DBVinylStore;
 
 import javax.swing.JScrollPane;
 import javax.swing.JMenuItem;
@@ -47,6 +48,7 @@ public class ProductsGUI {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {

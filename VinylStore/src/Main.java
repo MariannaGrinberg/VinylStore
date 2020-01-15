@@ -16,6 +16,7 @@ import Exceptions.IlegalDate;
 import Exceptions.IlegalPassword;
 import Exceptions.IllegalVinylPrice;
 import Exceptions.InvalidUserName;
+import JDBC.DBVinylStore;
 import enums.City;
 import enums.Condition;
 import enums.Format;
@@ -25,8 +26,12 @@ public class Main {
 
 //	static Scanner in = new Scanner(System.in);
 //
-//	public static void main(String[] args) {
-//
+	public static void main(String[] args) {
+
+		DBVinylStore db = new DBVinylStore();
+		System.out.println(db.containCustomer("12345", "customer1"));
+		
+		
 //		try {
 //
 //			// Store
@@ -890,5 +895,5 @@ public class Main {
 //				input = in.nextInt();
 //			}
 //			return input; 
-//		}
+		}
 	}

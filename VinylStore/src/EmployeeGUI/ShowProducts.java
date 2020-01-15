@@ -42,6 +42,7 @@ public class ShowProducts {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		System.out.println(Store);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {

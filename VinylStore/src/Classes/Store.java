@@ -1,7 +1,11 @@
 package Classes;
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
+
+import JDBC.DBVinylStore;
+import enums.City;
 
 public class Store implements Serializable {
 	
@@ -74,6 +78,24 @@ public class Store implements Serializable {
 		
 	}
 	
+	private String getCity(City city) {
+		String cityStr = "";
+
+		if (city == City.Afula)
+			cityStr = "Afula";
+
+		else if (city == City.Haifa)
+			cityStr = "Haifa";
+
+		else if (city == City.TLV)
+			cityStr = "TLV";
+
+		else if (city == City.Other)
+			cityStr = "Othre";
+
+		return cityStr;
+	}
+	
 	public Vinyl getProductByID(int ID) {
 		
 		Collections.sort(this.products);
@@ -143,20 +165,8 @@ public class Store implements Serializable {
 	
 	}
 	
-	public boolean containsCustomer(Customer otherCustomer) {
 		
 
-		for (Customer customer : this.customers) {
-			if(otherCustomer.getID().equals(customer.getID()) 
-					|| otherCustomer.getUsername().equals(customer.getUsername()))
-				return true; 
-			
-		}
-		
-		return false;
-	
-	}
-	
 	public Order getOrderByID(int ID) {
 		
 		for (Order order : this.orders) {
