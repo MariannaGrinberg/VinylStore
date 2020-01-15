@@ -32,10 +32,10 @@ public class Order implements Comparable<Order>, Serializable {
 	
 	// Constructor
 	
-	public Order(Customer customer, LocalDate orderDate)  throws IllegalVinylPrice, IlegalDate {
+	public Order(int ID, Customer customer, LocalDate orderDate)  throws IllegalVinylPrice, IlegalDate {
 		
 		
-		this.orderID = ++num;
+		this.orderID = ID;
 		products = new ArrayList<>(); 
 		setCustomer(customer);
 		setProducts(products);

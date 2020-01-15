@@ -422,7 +422,7 @@ public class CreateCustomer  extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 
 				Address address = new Address((City)comboBox.getSelectedItem() , FieldStreet.getText(), FieldNumber.getText(), FieldZip.getText());
-				String city = getCity(address.getCity());
+				String city = address.getCity().toString();
 
 				try {
 
@@ -449,8 +449,8 @@ public class CreateCustomer  extends JFrame{
 							}
 
 							JOptionPane.showMessageDialog(getFrame(),"Your Account was Successfuly created!!");
-							CustomerGUI customerWindow = new CustomerGUI(newCustomer.getID()); 
-							customerWindow.getWindow().setVisible(true);
+							LoginWindow LW = new LoginWindow();
+							LW.getFrame().setVisible(true);
 							dispose();
 						}
 
@@ -536,23 +536,6 @@ public class CreateCustomer  extends JFrame{
 
 	}
 
-	private String getCity(City city) {
-		String cityStr = "";
-
-		if (city == City.Afula)
-			cityStr = "Afula";
-
-		else if (city == City.Haifa)
-			cityStr = "Haifa";
-
-		else if (city == City.TLV)
-			cityStr = "TLV";
-
-		else if (city == City.Other)
-			cityStr = "Othre";
-
-		return cityStr;
-	}
 
 	public JFrame getFrame() {
 		return this;

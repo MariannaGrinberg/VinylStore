@@ -30,13 +30,13 @@ public class Vinyl implements Comparable<Vinyl>, Serializable {
 	private String artist = "";
 
 
-	public Vinyl(String name, String releaseYear, Format format, 
+	public Vinyl(int ID, String name, String releaseYear, String description, Format format, 
 				 Condition condition,int discount,float price) throws IllegalVinylPrice{
 		
 		songs = new ArrayList<>();
-		vinylID = ++num; 
+		vinylID = ID; 
 		setName(name);
-		setDescription();
+		this.description = description;
 		setReleaseDate(releaseYear);
 		setFormat(format);
 		setCondition(condition);
