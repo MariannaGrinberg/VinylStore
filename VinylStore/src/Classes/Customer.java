@@ -17,7 +17,7 @@ public class Customer extends User implements Comparable<Customer>, Serializable
 	private ArrayList<Vinyl> cart;
 
 	public Customer(String ID, String username, String password, String firstName, String lastName, 
-					 Address address,String phoneNumber, String email, LocalDate date)  
+					 Address address,String phoneNumber, String email)  
 							 throws InvalidUserName, IlegalPassword {
 	
 		super(ID, username, password, firstName, lastName, address, phoneNumber, email);

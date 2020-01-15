@@ -7,9 +7,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import Classes.Address;
 import Classes.Customer;
 import Classes.Vinyl;
+import Exceptions.IlegalPassword;
 import Exceptions.IllegalVinylPrice;
+import Exceptions.InvalidUserName;
 import enums.City;
 import enums.Condition;
 import enums.Format;
@@ -110,7 +113,7 @@ public class DBVinylStore {
 	public ArrayList<Vinyl> getProducts(){
 		String sql = "SELECT *" + 
 				"FROM Vinyl";
-		
+
 		ArrayList<Vinyl> products = new ArrayList<>();
 
 		try {
@@ -119,12 +122,12 @@ public class DBVinylStore {
 
 			executeStatement(sql);
 			while(rs.next()) {
-				
+
 				if (rs != null) {
 					try {
 						Vinyl vinyl = new Vinyl(rs.getInt("vinylID"), rs.getString("VinylName"), rs.getString("ReleaseYear"), 
-												rs.getString("Descript"), getFormat(rs.getString("VinylFormat")), getCondition(rs.getString("Condition")), 
-												(int)rs.getFloat("discount"), rs.getFloat("price"));
+								rs.getString("Descript"), getFormat(rs.getString("VinylFormat")), getCondition(rs.getString("Condition")), 
+								(int)rs.getFloat("discount"), rs.getFloat("price"));
 						products.add(vinyl);
 					} catch (IllegalVinylPrice e) {
 						e.printStackTrace();
@@ -132,7 +135,7 @@ public class DBVinylStore {
 				}
 
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {  
@@ -141,100 +144,197 @@ public class DBVinylStore {
 
 		return products;
 	}
-	
-	public int getProductsCount() {
-		String sql = "SELECT COUNT(vinylID) as 'count'\r\n" + 
-				"FROM Vinyl";
+
+	public void addToCart(String customerID, int productID) {
+		String sql = "INSERT INTO Cart\r\n" + 
+				"VALUES (" + productID + ", '" + customerID + "')";
 
 		try {
 
 			open();
 
 			executeStatement(sql);
+
+		} finally {  
+			close();
+		}
+	}
+
+	public Customer getCustomerByID(String ID) {
+
+		Customer customer = null;
+
+		String sql = "SELECT *\r\n" + 
+				"FROM Customer\r\n" + 
+				"WHERE CustomerID = '" + ID + "'";
+
+		try {
+
+			open();
+
+			//			CustomerID UserName Pass FirstName LastName PhoneNumber Email City Street Number  ZipCode
+
+			executeStatement(sql);
 			while(rs.next()) {
 
 				if (rs != null) {
-					return rs.getInt("count");
+					Address address = new Address(getCity(rs.getString("City")), rs.getString("Street"), rs.getString("Number"), rs.getString("ZipCode"));
+
+					try {
+						customer = new Customer(rs.getString("CustomerID"), rs.getString("UserName"), rs.getString("Pass"), 
+								rs.getString("FirstName"), rs.getString("LastName"), address, rs.getString("PhoneNumber"), rs.getString("Email"));
+					} catch (InvalidUserName e) {
+						e.printStackTrace();
+					} catch (IlegalPassword e) {
+						e.printStackTrace();
+					}
+
 				}
 
-				else
-					return -1;
 			}
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {  
 			close();
 		}
 
-		return -1;
-
+		return customer;
 	}
 
-	private City getCity(String city) {
-		City returnCity = null;
+	public Vinyl getProductByID(int ID) {
 
-		if (city.equals("Afula"))
-			returnCity = City.Afula;
+		Vinyl vinyl = null;
 
-		else if (city.equals("Haifa"))
-			returnCity = City.Haifa;
+		String sql = "SELECT *\r\n" + 
+				"FROM Vinyl\r\n" + 
+				"WHERE vinylID = " + ID ;
 
-		else if (city.equals("TLV"))
-			returnCity = City.TLV;
+		try {
 
-		else if (city.equals("Other"))
-			returnCity = City.Other;
+			open();
 
-		return returnCity;
+			//			CustomerID UserName Pass FirstName LastName PhoneNumber Email City Street Number  ZipCode
+
+			executeStatement(sql);
+			while(rs.next()) {
+
+				if (rs != null) {
+					try {
+						vinyl = new Vinyl(rs.getInt("vinylID"), rs.getString("VinylName"), rs.getString("ReleaseYear"), 
+								rs.getString("Descript"), getFormat(rs.getString("VinylFormat")), getCondition(rs.getString("Condition")), 
+								(int)rs.getFloat("discount"), rs.getFloat("price"));
+					} catch (IllegalVinylPrice e) {
+						e.printStackTrace();
+					}
+				}
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {  
+			close();
+		}
+		
+		return vinyl;
 	}
 
-	private Format getFormat(String format) {
-		Format returnFormat = null;
-		
-		if (format.equals("LP"))
-			returnFormat = Format.LP;
-		
-		else if (format.equals("EP"))
-			returnFormat = Format.EP;
-		
-		else if (format.equals("SEVEN"))
-			returnFormat = Format.SEVEN;
-		
-		else if (format.equals("TEN"))
-			returnFormat = Format.TEN;
-		
-		else if (format.equals("TWELVE_SINGLE"))
-			returnFormat = Format.TWELVE_SINGLE;
-		
-		else if (format.equals("FORTY_FIVE_RPM"))
-			returnFormat = Format.FORTY_FIVE_RPM;
-		
-		else if (format.equals("SEVENTY_EIGHT_RPM"))
-			returnFormat = Format.SEVENTY_EIGHT_RPM;
-		
-		return returnFormat;
-		
-		
-	}
-	
-//	'old', 'BrandNew', 'Used', 'damaged'
-	
-	private Condition getCondition(String condition) {
-		Condition returnCondition = null;
-		
-		if (condition.equals("old"))
-			returnCondition = Condition.old;
-		
-		else if (condition.equals("BrandNew"))
-			returnCondition = Condition.BrandNew;
-		
-		else if (condition.equals("Used"))
-			returnCondition = Condition.Used;
-		
-		else if (condition.equals("damaged"))
-			returnCondition = Condition.damaged;
-	
-		return returnCondition;
-	}
 
-}
+
+		public int getProductsCount() {
+			String sql = "SELECT COUNT(vinylID) as 'count'\r\n" + 
+					"FROM Vinyl";
+
+			try {
+
+				open();
+
+				executeStatement(sql);
+				while(rs.next()) {
+
+					if (rs != null) {
+						return rs.getInt("count");
+					}
+
+					else
+						return -1;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {  
+				close();
+			}
+
+			return -1;
+
+		}
+
+		private City getCity(String city) {
+			City returnCity = null;
+
+			if (city.equals("Afula"))
+				returnCity = City.Afula;
+
+			else if (city.equals("Haifa"))
+				returnCity = City.Haifa;
+
+			else if (city.equals("TLV"))
+				returnCity = City.TLV;
+
+			else if (city.equals("Other"))
+				returnCity = City.Other;
+
+			return returnCity;
+		}
+
+		private Format getFormat(String format) {
+			Format returnFormat = null;
+
+			if (format.equals("LP"))
+				returnFormat = Format.LP;
+
+			else if (format.equals("EP"))
+				returnFormat = Format.EP;
+
+			else if (format.equals("SEVEN"))
+				returnFormat = Format.SEVEN;
+
+			else if (format.equals("TEN"))
+				returnFormat = Format.TEN;
+
+			else if (format.equals("TWELVE_SINGLE"))
+				returnFormat = Format.TWELVE_SINGLE;
+
+			else if (format.equals("FORTY_FIVE_RPM"))
+				returnFormat = Format.FORTY_FIVE_RPM;
+
+			else if (format.equals("SEVENTY_EIGHT_RPM"))
+				returnFormat = Format.SEVENTY_EIGHT_RPM;
+
+			return returnFormat;
+
+
+		}
+
+		//	'old', 'BrandNew', 'Used', 'damaged'
+
+		private Condition getCondition(String condition) {
+			Condition returnCondition = null;
+
+			if (condition.equals("old"))
+				returnCondition = Condition.old;
+
+			else if (condition.equals("BrandNew"))
+				returnCondition = Condition.BrandNew;
+
+			else if (condition.equals("Used"))
+				returnCondition = Condition.Used;
+
+			else if (condition.equals("damaged"))
+				returnCondition = Condition.damaged;
+
+			return returnCondition;
+		}
+
+	}

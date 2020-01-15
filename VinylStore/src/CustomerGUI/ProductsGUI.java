@@ -54,8 +54,7 @@ public class ProductsGUI {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					db = new DBVinylStore();
-					ProductsGUI window = new ProductsGUI("1");
+					ProductsGUI window = new ProductsGUI("111111111");
 					window.productsWindow.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -68,33 +67,13 @@ public class ProductsGUI {
 	 * Create the application.
 	 */
 	public ProductsGUI(String customerID) {
-
-		// get store from file
-		FileInputStream file;
-		try {
-			file = new FileInputStream(new File("store.ser"));
-
-			ObjectInputStream obj;
-			obj = new ObjectInputStream(file);
-
-
-			// Read objects
-			this.store = (Store) obj.readObject();
-
-			obj.close();
-			file.close();
-
-			this.customer = this.store.getCustomerByID(customerID);
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
+		
+		db = new DBVinylStore();
+		
+		this.customer = db.getCustomerByID(customerID);
 
 		initialize();
+	
 	}
 
 	/**
@@ -127,7 +106,7 @@ public class ProductsGUI {
 				int selectedRowIndex = table.getSelectedRow();
 				int productID = (int) model.getValueAt(selectedRowIndex, 0);
 
-				selectedProduct = store.getProductByID(productID);
+				selectedProduct = db.getProductByID(productID);
 
 				descriptionField.setText(selectedProduct.getDescription());
 
@@ -192,26 +171,10 @@ public class ProductsGUI {
 	btnAddToCart.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
 			if(selectedProduct != null) {
-				customer.addToCart(selectedProduct);
+				
+				db.addToCart(customer.getID(), selectedProduct.getVinylID());;
 
-				FileOutputStream file;
-				try {
-					file = new FileOutputStream(new File("store.ser"));
-
-					ObjectOutputStream obj = new ObjectOutputStream(file);
-
-					obj.writeObject(store);
-
-					obj.close();
-					file.close();
-
-					JOptionPane.showMessageDialog(productsWindow, "Product #" + selectedProduct.getVinylID() + " was added to your Cart successfully!!");
-
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				JOptionPane.showMessageDialog(productsWindow, "Product #" + selectedProduct.getVinylID() + " was added to your Cart successfully!!");
 
 			}
 			else {
