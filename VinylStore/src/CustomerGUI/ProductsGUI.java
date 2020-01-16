@@ -1,9 +1,5 @@
 package CustomerGUI;
 import java.awt.EventQueue;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -41,7 +37,6 @@ public class ProductsGUI {
 	private JTable table;
 	private DefaultTableModel model;
 	private JTextArea descriptionField;
-	private Store store;
 	private Vinyl selectedProduct = null;
 	private Customer customer;
 	private static DBVinylStore db;
@@ -67,13 +62,13 @@ public class ProductsGUI {
 	 * Create the application.
 	 */
 	public ProductsGUI(String customerID) {
-		
+
 		db = new DBVinylStore();
-		
+
 		this.customer = db.getCustomerByID(customerID);
 
 		initialize();
-	
+
 	}
 
 	/**
@@ -141,78 +136,79 @@ public class ProductsGUI {
 		}
 
 
-	scrollPane.setViewportView(table);
+		scrollPane.setViewportView(table);
 
-	JMenuItem menuItem = new JMenuItem("< Back to Main Window");
-	menuItem.setFont(new Font("Segoe UI", Font.PLAIN, 19));
-	menuItem.addMouseListener(new MouseAdapter() {
-		@Override
-		public void mouseClicked(MouseEvent arg0) {
-			CustomerGUI customerWindow = new CustomerGUI(customer.getID());
-			customerWindow.getWindow().setVisible(true);
-			productsWindow.setVisible(false);
-			productsWindow.dispose();
-		}
-	});
-	menuItem.setBounds(0, 0, 255, 44);
-	productsWindow.getContentPane().add(menuItem);
-
-	JLabel lblProductsInStore = new JLabel("Products in Store:");
-	lblProductsInStore.setFont(new Font("Tahoma", Font.BOLD, 22));
-	lblProductsInStore.setBounds(40, 82, 980, 34);
-	productsWindow.getContentPane().add(lblProductsInStore);
-
-	JLabel lblDescriptiom = new JLabel("Description:");
-	lblDescriptiom.setFont(new Font("Tahoma", Font.BOLD, 22));
-	lblDescriptiom.setBounds(792, 82, 228, 34);
-	productsWindow.getContentPane().add(lblDescriptiom);
-
-	JButton btnAddToCart = new JButton("Add to Cart");
-	btnAddToCart.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent arg0) {
-			if(selectedProduct != null) {
-				
-				db.addToCart(customer.getID(), selectedProduct.getVinylID());;
-
-				JOptionPane.showMessageDialog(productsWindow, "Product #" + selectedProduct.getVinylID() + " was added to your Cart successfully!!");
-
-			}
-			else {
-				JOptionPane.showMessageDialog(productsWindow, "No Product Selected!!");
-
-			}
-		}
-	});
-	btnAddToCart.setBounds(638, 501, 139, 44);
-	productsWindow.getContentPane().add(btnAddToCart);
-
-	JButton btnMyCart = new JButton("My Cart");
-	btnMyCart.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-			if(customer.getCart().isEmpty()) {
-				JOptionPane.showMessageDialog(productsWindow, "Your Cart is Empty!!");
-			}
-			else {
-				MyCartGUI myCartWindow = new MyCartGUI(customer.getID());
-				myCartWindow.getWindow().setVisible(true);
+		JMenuItem menuItem = new JMenuItem("< Back to Main Window");
+		menuItem.setFont(new Font("Segoe UI", Font.PLAIN, 19));
+		menuItem.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				CustomerGUI customerWindow = new CustomerGUI(customer.getID());
+				customerWindow.getWindow().setVisible(true);
 				productsWindow.setVisible(false);
 				productsWindow.dispose();
 			}
-		}
-	});
-	btnMyCart.setBounds(40, 501, 139, 44);
-	productsWindow.getContentPane().add(btnMyCart);
+		});
+		menuItem.setBounds(0, 0, 255, 44);
+		productsWindow.getContentPane().add(menuItem);
 
-	JScrollPane scrollPane_1 = new JScrollPane();
-	scrollPane_1.setBounds(790, 120, 270, 359);
-	productsWindow.getContentPane().add(scrollPane_1);
+		JLabel lblProductsInStore = new JLabel("Products in Store:");
+		lblProductsInStore.setFont(new Font("Tahoma", Font.BOLD, 22));
+		lblProductsInStore.setBounds(40, 82, 980, 34);
+		productsWindow.getContentPane().add(lblProductsInStore);
 
-	descriptionField = new JTextArea();
-	scrollPane_1.setViewportView(descriptionField);
-	descriptionField.setFont(new Font("Tahoma", Font.PLAIN, 19));
-}
+		JLabel lblDescriptiom = new JLabel("Description:");
+		lblDescriptiom.setFont(new Font("Tahoma", Font.BOLD, 22));
+		lblDescriptiom.setBounds(792, 82, 228, 34);
+		productsWindow.getContentPane().add(lblDescriptiom);
 
-public JFrame getWindow() {
-	return this.productsWindow;
-}
+		JButton btnAddToCart = new JButton("Add to Cart");
+		btnAddToCart.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(selectedProduct != null) {
+
+					db.addToCart(customer.getID(), selectedProduct.getVinylID());;
+
+					JOptionPane.showMessageDialog(productsWindow, "Product #" + selectedProduct.getVinylID() + " was added to your Cart successfully!!");
+
+				}
+				else {
+					JOptionPane.showMessageDialog(productsWindow, "No Product Selected!!");
+
+				}
+			}
+		});
+		btnAddToCart.setBounds(638, 501, 139, 44);
+		productsWindow.getContentPane().add(btnAddToCart);
+
+		JButton btnMyCart = new JButton("My Cart");
+		btnMyCart.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(customer.getCart().isEmpty()) {
+					JOptionPane.showMessageDialog(productsWindow, "Your Cart is Empty!!");
+				}
+				else {
+					MyCartGUI myCartWindow = new MyCartGUI(customer.getID());
+					myCartWindow.getWindow().setVisible(true);
+					productsWindow.setVisible(false);
+					productsWindow.dispose();
+				}
+			}
+		});
+		btnMyCart.setBounds(40, 501, 139, 44);
+		productsWindow.getContentPane().add(btnMyCart);
+
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(790, 120, 270, 359);
+		productsWindow.getContentPane().add(scrollPane_1);
+
+		descriptionField = new JTextArea();
+		scrollPane_1.setViewportView(descriptionField);
+		descriptionField.setFont(new Font("Tahoma", Font.PLAIN, 19));
+	}
+
+	public JFrame getWindow() {
+		return this.productsWindow;
+	}
+	
 }

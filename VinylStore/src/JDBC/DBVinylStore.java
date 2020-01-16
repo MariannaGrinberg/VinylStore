@@ -126,7 +126,7 @@ public class DBVinylStore {
 				if (rs != null) {
 					try {
 						Vinyl vinyl = new Vinyl(rs.getInt("vinylID"), rs.getString("VinylName"), rs.getString("ReleaseYear"), 
-								rs.getString("Descript"), getFormat(rs.getString("VinylFormat")), getCondition(rs.getString("Condition")), 
+								fixLineBreak(rs.getString("Descript")), getFormat(rs.getString("VinylFormat")), getCondition(rs.getString("Condition")), 
 								(int)rs.getFloat("discount"), rs.getFloat("price"));
 						products.add(vinyl);
 					} catch (IllegalVinylPrice e) {
@@ -222,7 +222,7 @@ public class DBVinylStore {
 				if (rs != null) {
 					try {
 						vinyl = new Vinyl(rs.getInt("vinylID"), rs.getString("VinylName"), rs.getString("ReleaseYear"), 
-								rs.getString("Descript"), getFormat(rs.getString("VinylFormat")), getCondition(rs.getString("Condition")), 
+								fixLineBreak(rs.getString("Descript")), getFormat(rs.getString("VinylFormat")), getCondition(rs.getString("Condition")), 
 								(int)rs.getFloat("discount"), rs.getFloat("price"));
 					} catch (IllegalVinylPrice e) {
 						e.printStackTrace();
@@ -335,6 +335,11 @@ public class DBVinylStore {
 				returnCondition = Condition.damaged;
 
 			return returnCondition;
+		}
+		
+		public String fixLineBreak(String str) {
+			String returnStr = str.replaceAll("//", "\n");
+			return returnStr;
 		}
 
 	}

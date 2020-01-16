@@ -428,15 +428,13 @@ public class CreateCustomer  extends JFrame{
 
 					Customer newCustomer = new Customer(FieldId.getText(), FieldUser.getText(),
 							FieldPassword.getText(),FieldFirstName.getText(),FieldLastName.getText(),
-							address, FieldPhone.getText(), FieldEmail.getText(), LocalDate.now());
+							address, FieldPhone.getText(), FieldEmail.getText());
 
 					if(ValidateID(newCustomer.getID()) == true 
 							&&ValidateName(newCustomer.getFirstName()) == true 
 							&& ValidateName(newCustomer.getLastName()) == true 
 							&& ValidateFhone(newCustomer.getPhoneNumber()) == true) {
 
-						// TODO
-					
 
 						DBVinylStore db = new DBVinylStore();
 
@@ -466,7 +464,6 @@ public class CreateCustomer  extends JFrame{
 
 
 				} catch (InvalidUserName | IlegalPassword e1) {
-					// TODO Auto-generated catch block
 					JOptionPane.showMessageDialog(getContentPane(),e1.getMessage());
 				}
 
