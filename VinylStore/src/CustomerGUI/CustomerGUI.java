@@ -12,6 +12,7 @@ import com.sun.glass.events.WindowEvent;
 
 import Classes.Customer;
 import Classes.Store;
+import JDBC.DBVinylStore;
 import Main.LoginWindow;
 
 import java.awt.event.ActionListener;
@@ -28,8 +29,9 @@ import java.awt.Color;
 public class CustomerGUI {
 
 	private JFrame customerWindow;
-	private Store store;
 	private Customer customer;
+	private static DBVinylStore db;
+
 	
 	/**
 	 * Launch the application.
@@ -38,7 +40,7 @@ public class CustomerGUI {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CustomerGUI window = new CustomerGUI("1");
+					CustomerGUI window = new CustomerGUI("111111111");
 					window.customerWindow.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -52,33 +54,12 @@ public class CustomerGUI {
 	 */
 	public CustomerGUI(String customerID) {
 		
-		// get store from file
-		FileInputStream file;
-		try {
-		file = new FileInputStream(new File("store.ser"));
+		db = new DBVinylStore();
 
-		ObjectInputStream obj;
-		obj = new ObjectInputStream(file);
+		this.customer = db.getCustomerByID(customerID);
 
-
-		// Read objects
-		this.store = (Store) obj.readObject();
-		
-		obj.close();
-		file.close();
-		
-		this.customer = this.store.getCustomerByID(customerID);
-		
-		
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		
 		initialize();
+		
 	}
 
 	/**
@@ -116,7 +97,7 @@ public class CustomerGUI {
 		btnMyCart.setBackground(new Color(176, 224, 230));
 		btnMyCart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(customer.getCart().isEmpty()) {
+				if(db.customerCartIsEmpty(customer.getID())) {
 					JOptionPane.showMessageDialog(customerWindow, "Your Cart is Empty!!");
 				}
 				else {
@@ -135,7 +116,7 @@ public class CustomerGUI {
 		btbMyOrders.setBackground(new Color(176, 224, 230));
 		btbMyOrders.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(store.getOrdersByCustomerID(customer.getID()).isEmpty()) {
+				if(!db.customerHasOrders(customer.getID())) {
 					JOptionPane.showMessageDialog(customerWindow, "You don't have any orders in your account!!");
 				}
 				else {

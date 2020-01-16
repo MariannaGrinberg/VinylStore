@@ -184,7 +184,7 @@ public class ProductsGUI {
 		JButton btnMyCart = new JButton("My Cart");
 		btnMyCart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(customer.getCart().isEmpty()) {
+				if(db.customerCartIsEmpty(customer.getID())) {
 					JOptionPane.showMessageDialog(productsWindow, "Your Cart is Empty!!");
 				}
 				else {

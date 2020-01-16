@@ -1,4 +1,3 @@
-package CustomerGUI;
 import java.awt.EventQueue;
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,6 +25,7 @@ import Classes.Customer;
 import Classes.Order;
 import Classes.Store;
 import Exceptions.IllegalVinylPrice;
+import JDBC.DBVinylStore;
 
 import javax.swing.JScrollPane;
 
@@ -33,13 +33,13 @@ public class CustomerOrdersGUI {
 
 	private JFrame customerOrdersWindow;
 	private Customer customer;
-	private Store store;
 	private JTable table;
 	private JTextArea totalPriceField;
 	private JTextArea orderDetailsField;
 	private DefaultTableModel model;
 	private Order selectedOrder = null;
 	private String totalPrice;
+	private static DBVinylStore db;
 
 	/**
 	 * Launch the application.
@@ -48,7 +48,7 @@ public class CustomerOrdersGUI {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CustomerOrdersGUI window = new CustomerOrdersGUI("1");
+					CustomerOrdersGUI window = new CustomerOrdersGUI("111111111");
 					window.customerOrdersWindow.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -62,32 +62,12 @@ public class CustomerOrdersGUI {
 	 */
 	public CustomerOrdersGUI(String customerID) {
 		
-		// get store from file
-		FileInputStream file;
-		try {
-		file = new FileInputStream(new File("store.ser"));
+		db = new DBVinylStore();
 
-		ObjectInputStream obj;
-		obj = new ObjectInputStream(file);
+		this.customer = db.getCustomerByID(customerID);
 
-
-		// Read objects
-		this.store = (Store) obj.readObject();
-		
-		obj.close();
-		file.close();
-		
-		this.customer = store.getCustomerByID(customerID);
-		
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		
 		initialize();
+		
 	}
 
 	/**

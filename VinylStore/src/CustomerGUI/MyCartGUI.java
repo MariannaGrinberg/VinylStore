@@ -20,6 +20,7 @@ import Classes.Store;
 import Classes.Vinyl;
 import Exceptions.IlegalDate;
 import Exceptions.IllegalVinylPrice;
+import JDBC.DBVinylStore;
 
 import javax.swing.JScrollPane;
 import javax.swing.JMenuItem;
@@ -43,11 +44,13 @@ public class MyCartGUI {
 	JTextArea totalPriceField;
 	private DefaultTableModel model;
 	private JTextArea descriptionField;
-	private Store store;
 	private int productIndex = -1;
 	private Vinyl selectedProduct = null;
 	private Customer customer;
 	private double totalPrice;
+	private static DBVinylStore db;
+	private ArrayList<Vinyl> cart;
+
 
 	/**
 	 * Launch the application.
@@ -57,7 +60,7 @@ public class MyCartGUI {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MyCartGUI window = new MyCartGUI("1");
+					MyCartGUI window = new MyCartGUI("111111111");
 					window.myCartWindow.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -71,34 +74,11 @@ public class MyCartGUI {
 	 */
 	public MyCartGUI(String customerID) {
 		
-		// get store from file
-		FileInputStream file;
-		try {
-		file = new FileInputStream(new File("store.ser"));
+		db = new DBVinylStore();
 
-		ObjectInputStream obj;
-		obj = new ObjectInputStream(file);
+		this.customer = db.getCustomerByID(customerID);
 
-
-		// Read objects
-		store = (Store) obj.readObject();
-		
-		obj.close();
-		file.close();
-		
-		this.customer = store.getCustomerByID(customerID);
-		updateTotalPrice();
-		
-		
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
 		initialize();
-		
 	
 	}
 
@@ -132,7 +112,7 @@ public class MyCartGUI {
 				productIndex = table.getSelectedRow();
 				int productID = (int) model.getValueAt(productIndex, 0);
 				
-				selectedProduct = store.getProductByID(productID);
+				selectedProduct = db.getProductByID(productID);
 				
 				descriptionField.setText(selectedProduct.getDescription());
 				
@@ -148,8 +128,10 @@ public class MyCartGUI {
         model.setColumnIdentifiers(columns);
         table.setModel(model);
         
+        cart = db.getCart(customer.getID());
+        
 		
-		for(Vinyl product : this.customer.getCart()) {
+		for(Vinyl product : cart) {
 			
 			Object[] row = new Object[6];
 			
@@ -190,21 +172,11 @@ public class MyCartGUI {
 		
 		JButton btnRemoveFromCart = new JButton("Remove from Cart");
 		btnRemoveFromCart.setBackground(new Color(240, 128, 128));
+		
 		btnRemoveFromCart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(productIndex != -1) {
-					customer.removeFromCart(productIndex);
-					
-					FileOutputStream file;
-					try {
-					file = new FileOutputStream(new File("store.ser"));
-					
-					ObjectOutputStream obj = new ObjectOutputStream(file);
-					
-					obj.writeObject(store);
-					
-					obj.close();
-					file.close();
+					db.removeFromCart(customer.getID(), selectedProduct.getVinylID());
 					
 					int rowCount = model.getRowCount();
 					
@@ -213,7 +185,9 @@ public class MyCartGUI {
 					    model.removeRow(i);
 					}
 					
-					for(Vinyl product : customer.getCart()) {
+					cart = db.getCart(customer.getID());
+					
+					for(Vinyl product : cart) {
 						
 						Object[] row = new Object[6];
 						
@@ -229,18 +203,13 @@ public class MyCartGUI {
 					
 					descriptionField.setText("");
 					
+					productIndex = -1;
+					
 					updateTotalPrice();
 					totalPriceField.setText(totalPrice + "$");
 
 					JOptionPane.showMessageDialog(myCartWindow, "Product #" + selectedProduct.getVinylID() + " was Deleted from your Cart successfully!!");
 
-					
-					} catch (FileNotFoundException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					
 				}
 				else {
 					JOptionPane.showMessageDialog(myCartWindow, "No Product Selected!!");
@@ -248,6 +217,7 @@ public class MyCartGUI {
 				}
 			}
 		});
+		
 		btnRemoveFromCart.setBounds(597, 501, 180, 44);
 		myCartWindow.getContentPane().add(btnRemoveFromCart);
 		
