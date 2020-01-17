@@ -1,7 +1,9 @@
 package JDBC;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -9,6 +11,7 @@ import java.util.ArrayList;
 
 import Classes.Address;
 import Classes.Customer;
+import Classes.Order;
 import Classes.Vinyl;
 import Exceptions.IlegalPassword;
 import Exceptions.IllegalVinylPrice;
@@ -49,15 +52,35 @@ public class DBVinylStore {
 	}
 
 	public void close() {
+		if (con != null) try { con.close(); } catch(Exception e ) {}
 		if (rs != null) try { rs.close(); } catch(Exception e) {}  
 		if (stmt != null) try { stmt.close(); } catch(Exception e) {}
+	}
+
+	private Connection getCon() {
+		return con;
 	}
 
 	public void executeStatement(String sql) {
 		try {
 
 			stmt = con.createStatement();
-			rs = stmt.executeQuery(sql);
+
+			if (sql.contains("INSERT") || sql.contains("insert"))
+				stmt.executeUpdate(sql);
+
+			else
+				rs = stmt.executeQuery(sql);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void newOrderExecute(PreparedStatement st) {
+		try {
+
+			st.executeUpdate();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -108,6 +131,67 @@ public class DBVinylStore {
 			close();
 		}
 
+	}
+
+	public void addOrder(Order order) throws SQLException {	
+
+		String sql;
+		try {
+			java.util.Date utilDate = new java.util.Date();
+			java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+
+			sql = "INSERT INTO Orders (totalPrice, descript, OrderDate, CustomerID)\r\n" + 
+				  "VALUES (?,?,?,?)";
+			
+			open();
+
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setFloat(1, (float)order.getTotalPrice());
+			st.setString(2, order.toString());
+			st.setDate(3, sqlDate);
+			st.setString(4, order.getCustomer().getID());
+				
+			newOrderExecute(st);
+			
+			
+
+		} catch (IllegalVinylPrice e) {
+			e.printStackTrace();
+			
+		} finally {  
+			close();
+		}
+		
+		order.setID(lastOrderID() - 1);
+
+
+		for(Vinyl product : order.getProducts()) {
+			try {
+				sql = "INSERT INTO VinylsInOrder (OrderID, VinylID)\r\n" + 
+						"VALUES (" + order.getOrderID() + ", " + product.getVinylID() + ")";
+
+				open();
+
+				executeStatement(sql);
+
+			} finally {  
+				close();
+			}
+		}
+
+	}
+
+	public void clearCart(String customerID) {
+
+		try {
+			String sql = "DELETE FROM Cart\r\n" + 
+					"WHERE CustomerID = '" + customerID + "' ";
+			open();
+			executeStatement(sql);
+
+		} finally {  
+			close();
+		}
 	}
 
 	public ArrayList<Vinyl> getProducts(){
@@ -162,7 +246,7 @@ public class DBVinylStore {
 			while(rs.next()) {
 
 				if (rs != null) {
-					
+
 					productsIDs.add(rs.getInt("VinylID"));
 
 				}
@@ -174,13 +258,44 @@ public class DBVinylStore {
 		} finally {  
 			close();
 		}
-		
+
 		for (int productID : productsIDs) {
 			cart.add(getProductByID(productID));
 		}
 
 		return cart;
 
+	}
+
+	public int lastOrderID() {
+
+		int ID = 0;
+
+		String sql = "SELECT MAX(OrderID) AS OrderID\r\n" + 
+				"FROM Orders";
+
+		try {
+
+			open();
+
+			//			CustomerID UserName Pass FirstName LastName PhoneNumber Email City Street Number  ZipCode
+
+			executeStatement(sql);
+			while(rs.next()) {
+
+				if (rs != null) {
+					ID = rs.getInt("OrderID");
+				}
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {  
+			close();
+		}
+
+		return ID;
 	}
 
 	public void addToCart(String customerID, int productID) {
@@ -199,22 +314,22 @@ public class DBVinylStore {
 	}
 
 	public void removeFromCart(String customerID, int productID) {
-		
+
 		String sql = "DELETE FROM Cart\r\n" + 
 				"WHERE CustomerID = '" + customerID + "' AND ID IN ( SELECT TOP 1 ID\r\n" + 
 				"										   FROM Cart\r\n" + 
 				"										   WHERE VinylID = " + productID + ")";
-		
+
 		try {
-			
+
 			open();
-			
+
 			executeStatement(sql);
-			
+
 		} finally {  
 			close();
 		}
-		
+
 	}
 
 	public Customer getCustomerByID(String ID) {

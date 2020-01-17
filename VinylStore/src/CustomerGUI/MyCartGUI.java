@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -132,6 +133,7 @@ public class MyCartGUI {
         
 		
 		for(Vinyl product : cart) {
+			System.out.println(product);
 			
 			Object[] row = new Object[6];
 			
@@ -145,6 +147,8 @@ public class MyCartGUI {
 			model.addRow(row);
 		}
         
+		updateTotalPrice();
+		
 		scrollPane.setViewportView(table);
 		
 		JMenuItem menuItem = new JMenuItem("< Back to Main Window");
@@ -224,39 +228,25 @@ public class MyCartGUI {
 		JButton btnPlaceNewOrder = new JButton("Place New Order");
 		btnPlaceNewOrder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(customer.getCart().isEmpty()) {
+				if(cart.isEmpty()) {
 					JOptionPane.showMessageDialog(myCartWindow, "Your Cart is Empty!!");
 				}
 				else {
 					try {
 			
 						
-						Order order = new Order(customer, LocalDate.now());
-						ArrayList<Order> orders = store.getOrders();
+						Order order = new Order(0, customer, LocalDate.now());
 						
-						order.setID(store.getLastOrderID());
+						cart.forEach(product -> order.addProducts(product));
 						
-//						for(Vinyl product : customer.getCart()) {
-//							order.addProducts(product);
-//						}
+						try {
+							db.addOrder(order);
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
 						
-						customer.getCart().forEach(product -> order.addProducts(product));
-						
-						store.addOrder(order);
-						
-						customer.clearCart();
-						
-						
-						// Update Store File
-						FileOutputStream file;
-						file = new FileOutputStream(new File("store.ser"));
-						
-						ObjectOutputStream obj = new ObjectOutputStream(file);
-						
-						obj.writeObject(store);
-						
-						obj.close();
-						file.close();
+						db.clearCart(customer.getID());
+						cart.clear();
 						
 						
 						int rowCount = model.getRowCount();
@@ -271,16 +261,12 @@ public class MyCartGUI {
 						
 						descriptionField.setText("");
 						
-						JOptionPane.showMessageDialog(myCartWindow, "Order #" + order.getOrderID() + " was Successfully Placed!!\nThank you for your Order :)");
+						JOptionPane.showMessageDialog(myCartWindow, "Order #" + db.lastOrderID() + " was Successfully Placed!!\nThank you for your Order :)");
 						
 						
 					} catch (IllegalVinylPrice e) {
 						e.printStackTrace();
 					} catch (IlegalDate e) {
-						e.printStackTrace();
-					} catch (FileNotFoundException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
 						e.printStackTrace();
 					}
 				}
@@ -321,7 +307,7 @@ public class MyCartGUI {
 	private void updateTotalPrice() {
 		this.totalPrice = 0;
 		
-		for(Vinyl product : customer.getCart()) {
+		for(Vinyl product : cart) {
 			this.totalPrice += product.getPrice();
 		}
 	}
