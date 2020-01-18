@@ -71,10 +71,7 @@ public class Order implements Comparable<Order>, Serializable {
 
 	public void setDeliveryDate(LocalDate deliveryDate) throws IlegalDate{
 		
-		if(deliveryDate.isBefore(this.orderDate))
-			throw new IlegalDate("Delivery Date Must Be After Order Date"); 
-			
-		else this.deliveryDate = deliveryDate;
+		this.deliveryDate = deliveryDate;
 	}
 	
 	
@@ -124,7 +121,7 @@ public class Order implements Comparable<Order>, Serializable {
 	}
 	
 	public String getStatus() {
-		if(this.employee == null) {
+		if(this.deliveryDate == null) {
 			return "In Proccess";
 		}
 		else {
@@ -193,7 +190,7 @@ public class Order implements Comparable<Order>, Serializable {
 	
 	public void setID(int ID) {
 		
-		this.orderID = ++ID; 
+		this.orderID = ID; 
 	}
 	
 }

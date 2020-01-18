@@ -137,7 +137,7 @@ public class Vinyl implements Comparable<Vinyl>, Serializable {
 	}
 	
 	public void setVinylID(int ID) {
-		this.vinylID = ++ID;
+		this.vinylID = ID;
 	}
 
 	public void setReleaseDate(String releaseYear) {

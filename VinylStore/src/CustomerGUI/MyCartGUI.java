@@ -133,7 +133,6 @@ public class MyCartGUI {
         
 		
 		for(Vinyl product : cart) {
-			System.out.println(product);
 			
 			Object[] row = new Object[6];
 			

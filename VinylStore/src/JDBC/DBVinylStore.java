@@ -7,12 +7,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import Classes.Address;
 import Classes.Customer;
+import Classes.Employee;
 import Classes.Order;
 import Classes.Vinyl;
+import Exceptions.IlegalDate;
 import Exceptions.IlegalPassword;
 import Exceptions.IllegalVinylPrice;
 import Exceptions.InvalidUserName;
@@ -66,7 +69,7 @@ public class DBVinylStore {
 
 			stmt = con.createStatement();
 
-			if (sql.contains("INSERT") || sql.contains("insert"))
+			if (sql.contains("INSERT") || sql.contains("insert") || sql.contains("DELETE"))
 				stmt.executeUpdate(sql);
 
 			else
@@ -141,8 +144,8 @@ public class DBVinylStore {
 			java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 
 			sql = "INSERT INTO Orders (totalPrice, descript, OrderDate, CustomerID)\r\n" + 
-				  "VALUES (?,?,?,?)";
-			
+					"VALUES (?,?,?,?)";
+
 			open();
 
 			PreparedStatement st = con.prepareStatement(sql);
@@ -150,19 +153,19 @@ public class DBVinylStore {
 			st.setString(2, order.toString());
 			st.setDate(3, sqlDate);
 			st.setString(4, order.getCustomer().getID());
-				
+
 			newOrderExecute(st);
-			
-			
+
+
 
 		} catch (IllegalVinylPrice e) {
 			e.printStackTrace();
-			
+
 		} finally {  
 			close();
 		}
-		
-		order.setID(lastOrderID() - 1);
+
+		order.setID(lastOrderID());
 
 
 		for(Vinyl product : order.getProducts()) {
@@ -374,6 +377,185 @@ public class DBVinylStore {
 		return customer;
 	}
 
+	public ArrayList<Order> getOrdersByCustomerID(String ID) {
+		
+		ArrayList<Integer> ordersID = new ArrayList<>();
+		ArrayList<Order> orders = new ArrayList<>();
+		ArrayList<String> employees = new ArrayList<>();
+
+		String sql = "SELECT OrderID, EmployeeID\r\n" + 
+				"FROM Orders\r\n" + 
+				"WHERE CustomerID = '" + ID + "'";
+
+		try {
+
+			open();
+
+			executeStatement(sql);
+			while(rs.next()) {
+
+				if (rs != null) {
+					ordersID.add(rs.getInt("OrderID"));
+					
+					if (rs.getString("EmployeeID") != null)
+						employees.add(rs.getString("EmployeeID"));
+					else
+						employees.add("");
+				}
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {  
+			close();
+		}
+
+
+//		try {
+//			
+//			open();
+//			
+//			executeStatement(sql);
+//
+//			while(rs.next()) {
+//
+//				if (rs != null) {
+//
+//					LocalDate orderDate = rs.getDate("OrderDate").toLocalDate();
+//					LocalDate deliveryDate = null;
+//					int orderID = rs.getInt("OrderID");
+//
+//					if (rs.getString("EmployeeID") != null)
+//						employees.add(rs.getString("EmployeeID"));
+//					else
+//						employees.add("");
+//
+//					if (rs.getDate("DeliveryDate") != null)
+//						deliveryDate = rs.getDate("DeliveryDate").toLocalDate();
+//
+//					Customer customer = getCustomerByID(rs.getString("CustomerID"));
+//
+//
+//					Order order;
+//					try {
+//						order = new Order(orderID, customer, orderDate);
+//
+//						order.setDeliveryDate(deliveryDate);
+//
+//						orders.add(order);
+//
+//					} catch (IllegalVinylPrice | IlegalDate e) {
+//						e.printStackTrace();
+//					}
+//
+//				}
+//
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} finally {  
+//			close();
+//		}
+
+
+		for(int i = 0; i < ordersID.size(); i++) {
+			
+			Order order = getOrderByID(ordersID.get(i));
+			
+			if(!employees.get(i).equals("")) {
+				order.setEmployee(getEmployeeByID(employees.get(i)));
+			}
+			
+			orders.add(order);
+		}
+
+		return orders;
+	}
+
+	public float getOrderTotalPrice(int ID) {
+		float totalPrice = 0;
+
+		String sql = "SELECT totalPrice\r\n" + 
+				"FROM Orders\r\n" + 
+				"WHERE OrderID = " + ID;
+
+		try {
+
+			open();
+
+			executeStatement(sql);
+			while(rs.next()) {
+
+				if (rs != null) {
+					totalPrice = rs.getFloat("totalPrice");
+				}
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {  
+			close();
+		}
+
+		return totalPrice;
+	}
+
+	public Order getOrderByID(int ID) {
+
+		Order order = null;
+
+		String sql = "SELECT *\r\n" + 
+				"FROM Orders\r\n" + 
+				"WHERE OrderID = " + ID;
+
+		try {
+
+			open();
+
+			executeStatement(sql);
+			while(rs.next()) {
+
+				if (rs != null) {
+					LocalDate orderDate = rs.getDate("OrderDate").toLocalDate();
+					LocalDate deliveryDate = null;
+					int orderID = rs.getInt("OrderID");
+					if(rs.getDate("DeliveryDate") != null)
+						deliveryDate = rs.getDate("DeliveryDate").toLocalDate();
+					Customer customer = getCustomerByID(rs.getString("CustomerID"));
+					Employee employee = null;
+					
+
+					try {
+						order = new Order(orderID, customer, orderDate);
+
+						order.setDeliveryDate(deliveryDate);
+
+						if (employee != null)
+							order.setEmployee(employee);	
+
+
+					} catch (IllegalVinylPrice | IlegalDate e) {
+						e.printStackTrace();
+					}
+
+				}
+
+			}
+
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {  
+			close();
+		}
+
+		return order;
+	}
+
+
 	public Vinyl getProductByID(int ID) {
 
 		Vinyl vinyl = null;
@@ -412,6 +594,45 @@ public class DBVinylStore {
 		return vinyl;
 	}
 
+	public Employee getEmployeeByID(String ID) {
+
+		Employee employee = null;
+
+		String sql = "SELECT *\r\n" + 
+				"FROM Employee\r\n" + 
+				"WHERE EmployeeID = '" + ID + "'";
+
+		try {
+
+			open();
+
+			executeStatement(sql);
+			while(rs.next()) {
+
+				if (rs != null) {
+					Address address = new Address(getCity(rs.getString("City")), rs.getString("Street"), rs.getString("Number"), rs.getString("ZipCode"));
+
+					try {
+						employee = new Employee(rs.getString("EmployeeID"), rs.getString("UserName"), rs.getString("Pass"), 
+								rs.getString("FirstName"), rs.getString("LastName"), address, rs.getString("PhoneNumber"), rs.getString("Email"), null);
+					} catch (InvalidUserName e) {
+						e.printStackTrace();
+					} catch (IlegalPassword e) {
+						e.printStackTrace();
+					}
+
+				}
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {  
+			close();
+		}
+
+		return employee;
+	}
 
 	public boolean customerCartIsEmpty(String ID) {
 		String sql = "SELECT COUNT(*) as count\r\n" + 
@@ -438,6 +659,30 @@ public class DBVinylStore {
 
 		return false;
 
+	}
+
+	public String getOrderDescription(int ID) {
+		String sql = "SELECT descript\r\n" + 
+				"FROM Orders\r\n" + 
+				"WHERE OrderID = '" + ID + "'";
+
+		String description = null;
+
+		try {
+
+			open();
+
+			executeStatement(sql);
+			while(rs.next()) {
+				description = rs.getString("descript");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {  
+			close();
+		}
+
+		return description;
 	}
 
 	public boolean customerHasOrders(String ID) {
